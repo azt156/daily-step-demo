@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>每日一小步・閱讀三關（線上試用）｜樂寫學習網</title>
+<meta name="csrf-token" content="demo">
+<link rel="icon" href="favicon.ico">
+<style>
+:root{
+ --text:#333333; --text2:#787878; --canvas:#FFFFFF; --soft:#F0F0F0; --soft2:#E4E4E4;
+ --border:#C8C8C8; --blue:#34A3A2; --blue-soft:#C9EFEF; --green:#5CB85C; --green-soft:#DFF0D8;
+ --orange:#F0AD4E; --orange-soft:#FCF8E3; --red:#D9534F; --red-soft:#F2DEDE;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:"Ubuntu","微軟正黑體","Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;background:#85C8C5 url("images/restaurant.webp") repeat center;background-size:cover;color:var(--text);font-size:16px;line-height:1.7}
+.bar{position:sticky;top:0;z-index:20;background:var(--canvas);border-bottom:1px solid var(--border)}
+.bar-inner{max-width:720px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.brand{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;min-width:0}
+.brand .tag{font-weight:500;font-size:15px;color:var(--text2);white-space:nowrap}
+.bar .chips{display:flex;gap:6px;flex-shrink:0}
+.homelink{display:none;text-decoration:none;color:var(--blue)}
+@media(min-width:560px){.homelink{display:inline}}
+@media(max-width:559px){.brand .tag{display:none}}
+.wrap{max-width:720px;margin:0 auto;padding:20px 20px 96px}
+.screen{display:none}
+.screen.active{display:block}
+.card{background:var(--canvas);border:1px solid var(--border);border-radius:6px;padding:20px;margin-bottom:16px}
+h1{font-size:32px;line-height:1.35;margin:4px 0 8px;font-weight:bold}
+h2{font-size:20px;margin:0 0 12px;font-weight:bold}
+.sub{color:var(--text2);margin:0 0 4px}
+.fine{font-size:15px;color:var(--text2)}
+.privacy{font-size:15px;color:var(--text2);text-align:center;margin-top:24px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:46px;padding:10px 16px;border-radius:4px;border:1px solid var(--border);background:var(--canvas);color:var(--text);font:inherit;font-size:16px;cursor:pointer;text-decoration:none}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600}
+.btn.soft{background:var(--soft2);border-color:transparent}
+.btn.good{background:var(--green-soft);border-color:transparent;color:var(--green);font-weight:600}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--blue)}
+.btn.big{min-height:50px;font-size:20px;margin-top:8px}
+.btn[disabled]{opacity:.5;pointer-events:none}
+.btnrow{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px}
+@media(min-width:560px){.btnrow.two{grid-template-columns:1fr 1fr}}
+label{display:block;font-weight:600;margin:18px 0 6px}
+.hint{font-size:16px;color:var(--text2);margin:4px 0 6px}
+input[type=text],textarea{width:100%;padding:12px;border:1px solid var(--border);border-radius:4px;background:var(--canvas);color:var(--text);font:inherit;font-size:16px}
+input[type=text]:focus,textarea:focus{outline:2px solid var(--blue);outline-offset:0;border-color:var(--blue)}
+textarea{min-height:96px;resize:vertical}
+.counter{text-align:right;font-size:13px;color:var(--text2);margin-top:4px}
+.counter.over{color:var(--orange);font-weight:600}
+.mic{position:absolute;right:8px;bottom:8px;width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--canvas);font-size:17px;cursor:pointer}
+.mic.rec{background:var(--red-soft);border-color:var(--red)}
+.field{position:relative}
+.chip{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;background:var(--soft2);font-size:13px;white-space:nowrap}
+.chip.earn{background:var(--green-soft);color:var(--green);font-weight:600}
+.chips-wrap{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.angle{border:1px solid var(--border);background:var(--canvas);color:var(--text);border-radius:999px;padding:8px 14px;font-size:16px;cursor:pointer;min-height:44px}
+.angle.on{background:var(--blue-soft);border-color:var(--blue);color:var(--blue);font-weight:600}
+.gate{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px;border:1px solid var(--border);border-radius:6px;background:var(--canvas);color:var(--text);margin-bottom:8px;cursor:pointer;font:inherit}
+.gate .ic{font-size:20px;width:28px;text-align:center;flex-shrink:0}
+.gate .tt{font-weight:600}
+.gate .dd{font-size:16px;color:var(--text2)}
+.gate .st{margin-left:auto;font-size:13px;color:var(--text2);flex-shrink:0}
+.gate.lock{opacity:.55;pointer-events:none}
+.gate.done{border-color:var(--green)}
+.gate.done .st{color:var(--green);font-weight:600}
+.progress{height:6px;background:var(--soft2);border-radius:3px;overflow:hidden;margin:8px 0 16px}
+.progress .bar{height:100%;background:var(--green);width:0%;transition:width .3s}
+.steps{list-style:none;margin:0;padding:0}
+.steps li{padding:10px 0;border-bottom:1px dashed var(--border);display:flex;gap:10px;align-items:baseline}
+.steps li:last-child{border-bottom:none}
+.steps b{flex-shrink:0}
+.steps span{color:var(--text2);font-size:17px}
+.hero-stats{display:flex;gap:24px;margin:16px 0}
+.hero-stats b{font-size:22px;display:block;line-height:1.2}
+.hero-stats small{color:var(--text2)}
+.article{white-space:pre-wrap;line-height:1.8}
+.diffview{border:1px solid var(--border);border-radius:4px;padding:16px;background:var(--soft);white-space:pre-wrap;line-height:1.9;font-size:16px}
+.diff-add{background:var(--red-soft);color:var(--red);border-radius:3px;padding:0 1px;font-weight:600}
+.diff-del{color:var(--text2);text-decoration:line-through}
+.cols{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:720px){.cols{grid-template-columns:1fr 1fr}}
+.cols h3{margin:0 0 6px;font-size:14px;color:var(--text2)}
+pre.prompt{white-space:pre-wrap;word-break:break-word;background:var(--soft);border:1px solid var(--border);border-radius:4px;padding:16px;font-size:16px;line-height:1.7;max-height:260px;overflow:auto;font-family:inherit}
+.note{border-left:3px solid var(--blue);background:var(--blue-soft);padding:12px 16px;border-radius:0 4px 4px 0;font-size:16px;margin:12px 0}
+.note.warn{border-left-color:var(--orange);background:var(--orange-soft)}
+.note.good{border-left-color:var(--green);background:var(--green-soft)}
+.divider{display:flex;align-items:center;gap:12px;color:var(--text2);font-size:14px;margin:20px 0}
+.divider:before,.divider:after{content:"";flex:1;border-top:1px dashed var(--border)}
+#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(8px);background:var(--text);color:var(--canvas);padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;transition:.25s;pointer-events:none;z-index:60;max-width:88vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.photo-prev{margin-top:8px}
+.photo-prev img{max-width:160px;border-radius:4px;border:1px solid var(--border)}
+.rec-item{padding:10px 0;border-bottom:1px dashed var(--border);font-size:16px}
+.rec-item:last-child{border-bottom:none}
+.rec-item .d{color:var(--text2);font-size:14px}
+.kv{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.tabs{display:flex;gap:8px;margin:12px 0}
+.tabs .btn{width:auto;min-height:38px;padding:6px 14px;font-size:14px}
+</style>
+</head>
+<body>
+<header class="bar"><div class="bar-inner">
+ <div class="brand">🌱 每日一小步 <span class="tag">閱讀三關 v2.1・線上試用版</span><a class="tag homelink" href="https://www.colearn30.com/">← 回樂寫首頁</a></div>
+ <div class="chips"><span class="chip" id="sandChip">✨ 0 金沙</span><span class="chip" id="levelChip">✨ 金沙</span></div>
+</div></header>
+<main class="wrap">
+
+<!-- 首頁 -->
+<section class="screen" id="s-home">
+ <div class="card">
+  <h1>每天 5 分鐘<br>把讀過的書，變成你的寫作資料庫</h1>
+  <p class="sub">不用讀完整本書。一個章節、一個觀點、一個故事，就能開始。</p>
+  <div class="note" style="margin-top:12px"><b>兩種玩法，自由選：</b><br>✅ <b>每日打卡</b>＝3 分鐘留下「閱讀四寶」（書名、作者、觀點關鍵詞、書中故事），一天一次，只存在自己的學習歷程<br>🏁 <b>闖關</b>＝走完四頁寫成一篇完整心得，繳交給老師批改（收在「學習成果 → 文章管理」）</div>
+  <div class="hero-stats">
+   <div><b id="homeSand">0</b><small>✨ 金沙</small></div>
+   <div><b id="homeStreak">0</b><small>🔥 連續打卡天數</small></div>
+   <div><b id="homeArticles">0</b><small>📝 完成文章</small></div>
+  </div>
+  <button class="btn primary big" id="btnStart">🏁 開始闖關（寫一篇心得）</button>
+  <div class="btnrow two">
+   <button class="btn soft" id="btnCheckin">✅ 每日打卡（3 分鐘）</button>
+   <button class="btn soft" id="btnDemo">📖 看《小王子》範例</button>
+  </div>
+  <div class="btnrow"><button class="btn ghost" id="btnPortfolio">🗂 我的學習歷程</button></div>
+ </div>
+ <div class="card">
+  <h2>怎麼玩？</h2>
+  <ol class="steps">
+   <li><b>① 閱讀四寶</b><span>每天存四樣：書名、作者、一個觀點關鍵詞、一個書中故事</span></li>
+   <li><b>② 我的觀點與故事</b><span>連結你自己的生命經驗（50 字以上）</span></li>
+   <li><b>③ 別人的故事</b><span>選寫：換個位置想別人，或寫下「我學到了什麼」</span></li>
+   <li><b>④ 讀後行動</b><span>一個這週就做得到的行動，然後組成文章</span></li>
+  </ol>
+  <p class="fine">不想用框架？<a href="#free" data-go="free">直接自由書寫</a>也可以。</p>
+ </div>
+ <p class="privacy">內容會自動存到你的樂寫帳號：積分、徽章、打卡與學習歷程，換裝置也會帶回。</p>
+</section>
+
+<!-- 關卡地圖 -->
+<section class="screen" id="s-map">
+ <div class="card">
+  <h2>關卡地圖</h2>
+  <div class="progress"><div class="bar" id="mapBar"></div></div>
+  <div id="gateList"></div>
+  <p class="fine">依序闖關、隨時暫存；也可以一口氣寫完。完成四頁後，來這裡組裝文章。</p>
+  <div class="btnrow"><button class="btn ghost" data-go="home">← 回首頁</button></div>
+ </div>
+</section>
+
+<!-- 第一頁 -->
+<section class="screen" id="s-g1">
+ <div class="card">
+  <h2>第一頁｜閱讀四寶</h2>
+  <div class="note">不用讀完整本書。挑一個你有感覺的章節，把四樣寶物存進你的存摺。</div>
+  <label for="f-book">書名</label>
+  <input type="text" id="f-book" data-bind="book" placeholder="例：小王子">
+  <label for="f-author">作者</label>
+  <input type="text" id="f-author" data-bind="author" placeholder="例：安東尼・聖修伯里">
+  <label for="f-keyword">書中觀點（一個關鍵詞）</label>
+  <p class="hint">翻到你喜歡的章節，用一個詞說出它的觀點。例：馴養、勇氣、選擇。</p>
+  <input type="text" id="f-keyword" data-bind="keyword" placeholder="例：馴養">
+  <label for="f-story">書中故事</label>
+  <p class="hint">支撐這個觀點的故事，用自己的話說：一句話 ≤30 字，或一小段 ≤120 字。超過就很像灌水囉。</p>
+  <div class="field">
+   <textarea id="f-story" data-bind="story" data-warn="120" placeholder="例：狐狸教小王子「馴養」：建立關係，讓彼此成為唯一。"></textarea>
+   <button class="mic" data-target="f-story" title="語音輸入" type="button">🎤</button>
+  </div>
+  <div class="counter" ><span data-count="story">0</span> 字（建議 120 字內）</div>
+  <label>手寫稿拍照（選擇性）</label>
+  <p class="hint">習慣手寫？拍一張照片上傳也可以。</p>
+  <input type="file" id="photoInput" accept="image/*" capture="environment" style="font-size:14px">
+  <div class="photo-prev" id="photoWrap"></div>
+  <div class="btnrow two">
+   <button class="btn ghost" data-go="map">← 回地圖</button>
+   <button class="btn primary" id="pass1">完成第一頁（+5 ✨）</button>
+  </div>
+ </div>
+</section>
+
+<!-- 第二頁 -->
+<section class="screen" id="s-g2">
+ <div class="card">
+  <h2>第二頁｜我的觀點與故事</h2>
+  <div class="note" id="g2note">從你的關鍵詞出發：你同意書中的觀點嗎？然後，講一個你自己的故事。</div>
+  <label for="f-myview">我的觀點</label>
+  <p class="hint">你同意「<span id="kwEcho1">這個觀點</span>」嗎？為什麼？一句話說清楚。</p>
+  <div class="field">
+   <textarea id="f-myview" data-bind="myView" placeholder="例：我同意。關係的價值不在對方本來多特別，而在你願意為他花多少時間。"></textarea>
+   <button class="mic" data-target="f-myview" title="語音輸入" type="button">🎤</button>
+  </div>
+  <label for="f-mystory">我的故事</label>
+  <p class="hint">連結你自己的生命經驗，至少 50 字。先寫再說，流水帳也沒關係。</p>
+  <div class="field">
+   <textarea id="f-mystory" data-bind="myStory" style="min-height:140px" placeholder="例：我原本和隔壁班的同學不熟，直到我們一起準備科展……"></textarea>
+   <button class="mic" data-target="f-mystory" title="語音輸入" type="button">🎤</button>
+  </div>
+  <div class="counter"><span data-count="myStory">0</span> 字（至少 50 字）</div>
+  <div class="btnrow two">
+   <button class="btn ghost" data-go="map">← 回地圖</button>
+   <button class="btn primary" id="pass2">完成第二頁（+10 ✨）</button>
+  </div>
+ </div>
+</section>
+
+<!-- 第三頁 -->
+<section class="screen" id="s-g3">
+ <div class="card">
+  <h2>第三頁｜別人的故事（選寫挑戰）</h2>
+  <div class="note">有誰也是這樣的人？從一個角度換位思考，分數會更高；想不出來，寫「我學到了什麼」也可以過關。</div>
+  <label>選一個角度</label>
+  <div class="chips-wrap" id="angleWrap"></div>
+  <div class="field">
+   <textarea id="f-exttext" data-bind="extText" placeholder="例：在家庭裡，爸媽每天花時間陪我吃飯、聽我講學校的事，其實就是在馴養我們的關係……"></textarea>
+   <button class="mic" data-target="f-exttext" title="語音輸入" type="button">🎤</button>
+  </div>
+  <div class="divider">想不出來也沒關係</div>
+  <label for="f-learned">我學到了什麼（一句話收尾）</label>
+  <div class="field">
+   <textarea id="f-learned" data-bind="learned" placeholder="例：我學到關係不是本來就有的，是用時間一點一點換來的。"></textarea>
+   <button class="mic" data-target="f-learned" title="語音輸入" type="button">🎤</button>
+  </div>
+  <div class="btnrow two">
+   <button class="btn ghost" data-go="map">← 回地圖</button>
+   <button class="btn primary" id="pass3">完成第三頁（+5～10 ✨）</button>
+  </div>
+ </div>
+</section>
+
+<!-- 第四頁 -->
+<section class="screen" id="s-g4">
+ <div class="card">
+  <h2>第四頁｜讀後行動</h2>
+  <div class="note">文字不能只停在紙上。讀了這本書，你可以做的一個行動是什麼？寫下你夢想的最高規格版本——沒有 100 分，也有 80 分。</div>
+  <label for="f-action">我的行動</label>
+  <p class="hint">具體、這週就做得到的事。例：每天放下手機十分鐘，認真聽家人說話。</p>
+  <div class="field">
+   <textarea id="f-action" data-bind="action" placeholder="這個星期，我要……"></textarea>
+   <button class="mic" data-target="f-action" title="語音輸入" type="button">🎤</button>
+  </div>
+  <div class="btnrow two">
+   <button class="btn ghost" data-go="map">← 回地圖</button>
+   <button class="btn primary" id="pass4">完成第四頁（+5 ✨）</button>
+  </div>
+ </div>
+</section>
+
+<!-- 自由書寫 -->
+<section class="screen" id="s-free">
+ <div class="card">
+  <h2>自由書寫</h2>
+  <div class="note">不想用框架也沒問題。把你想寫的直接寫下來，寫完一樣可以組成文章。</div>
+  <label for="f-freebook">書名</label>
+  <input type="text" id="f-freebook" placeholder="你讀的是哪本書？">
+  <label for="f-free">我的心得</label>
+  <div class="field">
+   <textarea id="f-free" data-bind="freeText" style="min-height:240px" placeholder="想到什麼就寫什麼……"></textarea>
+   <button class="mic" data-target="f-free" title="語音輸入" type="button">🎤</button>
+  </div>
+  <div class="btnrow two">
+   <button class="btn ghost" data-go="home">← 回首頁</button>
+   <button class="btn primary" id="passFree">寫完了，去組裝（+15 ✨）</button>
+  </div>
+ </div>
+</section>
+
+<!-- 組裝 -->
+<section class="screen" id="s-assembly">
+ <div class="card" id="asmLocked" style="display:none">
+  <h2>文章組裝</h2>
+  <div class="note warn">還差一點！先完成第一、二、四頁（第三頁選寫），再回來組裝文章。</div>
+  <div class="btnrow"><button class="btn primary" data-go="map">去關卡地圖</button></div>
+ </div>
+ <div id="asmMain" style="display:none">
+  <div class="card">
+   <h2>文章組裝</h2>
+   <p class="fine">系統已把你的材料組成草稿。接下來二選一：自己整理，或請你慣用的 AI 幫忙調結構。</p>
+   <h2 style="font-size:15px;color:var(--text2);margin-top:16px">我的草稿</h2>
+   <div class="diffview" id="draftView"></div>
+   <div class="btnrow two">
+    <button class="btn soft" id="btnSelf">✍️ 我自己整理</button>
+    <button class="btn primary" id="btnAI">🤖 AI 協作（推薦）</button>
+   </div>
+   <div class="btnrow"><button class="btn ghost" data-go="map">← 回關卡地圖改材料</button></div>
+  </div>
+  <div class="card" id="selfBox" style="display:none">
+   <h2>自己整理</h2>
+   <p class="hint">在草稿上直接修改，調整順序、刪掉不順的地方，變成你的完整文章。</p>
+   <textarea id="ta-self" style="min-height:260px"></textarea>
+   <div class="btnrow"><button class="btn primary" id="selfDone">完成文章（+20 ✨）</button></div>
+   <div class="btnrow"><button class="btn ghost" id="selfBack">← 回上一步（重新選整理方式）</button></div>
+  </div>
+  <div class="card" id="aiBox" style="display:none">
+   <h2>AI 協作</h2>
+   <!-- 步驟一 -->
+   <div id="aiStep1">
+    <div class="note">步驟一：複製下面的提示詞＋你的材料，貼給你慣用的 AI（ChatGPT、Gemini 都可以）。提示詞已限定 AI「只調結構、不修辭」，而且最多只能改動全文的五分之一。</div>
+    <pre class="prompt" id="promptBox"></pre>
+    <div class="btnrow two">
+     <button class="btn soft" id="btnCopy">📋 一鍵複製提示詞＋材料</button>
+     <button class="btn primary" id="toStep2">貼給 AI 了，下一步 →</button>
+    </div>
+    <div class="btnrow"><button class="btn ghost" id="aiBack0">← 回上一步（重新選整理方式）</button></div>
+   </div>
+   <!-- 步驟二 -->
+   <div id="aiStep2" style="display:none">
+    <div class="note">步驟二：AI 調整完之後，把「調整後的完整文章」整段複製，貼回下面。</div>
+    <textarea id="ta-ai" data-bind="aiText" style="min-height:220px" placeholder="貼上 AI 調整後的文章……"></textarea>
+    <div class="btnrow two">
+     <button class="btn ghost" id="backStep1">← 上一步</button>
+     <button class="btn primary" id="toStep3">貼好了，比對差異 →</button>
+    </div>
+   </div>
+   <!-- 步驟三 -->
+   <div id="aiStep3" style="display:none">
+    <div class="note">步驟三：<b style="color:var(--red)">紅色</b>是 AI 新增或改動的地方，<s>刪除線</s>是被 AI 拿掉的。仔細看看它改了什麼。</div>
+    <div class="tabs">
+     <button class="btn soft" id="viewMerged">合併對照</button>
+     <button class="btn ghost" id="viewSide">並排對照</button>
+    </div>
+    <div class="diffview" id="diffMerged"></div>
+    <div class="cols" id="diffSide" style="display:none">
+     <div><h3>我的草稿</h3><div class="diffview" id="diffOld"></div></div>
+     <div><h3>AI 調整後</h3><div class="diffview" id="diffNew"></div></div>
+    </div>
+    <div class="btnrow two">
+     <button class="btn soft" id="btnEditAI">✍️ 我在 AI 版上再修</button>
+     <button class="btn primary" id="btnUseAI">這版可以，下一步 →</button>
+    </div>
+    <div class="btnrow"><button class="btn ghost" id="aiBack2">← 回上一步（重貼 AI 文章）</button></div>
+   </div>
+   <!-- 步驟三b：在 AI 版上修改 -->
+   <div id="aiStep3b" style="display:none">
+    <div class="note">在 AI 的版本上直接改成你想要的樣子。</div>
+    <textarea id="ta-aiedit" style="min-height:240px"></textarea>
+    <div class="btnrow two">
+     <button class="btn ghost" id="aiBack3">← 回差異對照</button>
+     <button class="btn primary" id="aiEditDone">修好了，下一步 →</button>
+    </div>
+   </div>
+   <!-- 步驟四 -->
+   <div id="aiStep4" style="display:none">
+    <div class="note good">最後一步，也是最重要的一步：你覺得 AI 改得好不好？理由是什麼？你怎麼判斷的？</div>
+    <p class="hint">請用完整的句子回答（至少 20 字），只寫「好」或「不好」不算。</p>
+    <div class="field">
+     <textarea id="ta-refl" data-bind="reflection" style="min-height:120px" placeholder="例：我覺得 AI 改得好。它把我的故事移到最前面，先講故事再講道理，讀起來更順。但它補的過場句有點像作文範本，我想換成自己的話。"></textarea>
+     <button class="mic" data-target="ta-refl" title="語音輸入" type="button">🎤</button>
+    </div>
+    <div class="btnrow"><button class="btn primary big" id="aiAllDone">完成文章（+20 ✨，反思 +10 ✨）</button></div>
+    <div class="btnrow"><button class="btn ghost" id="aiBack4">← 回去看差異對照</button></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 成果 -->
+<section class="screen" id="s-result">
+ <div class="card">
+  <div class="kv"><span class="chip earn" id="resultBookChip">完成</span><span class="fine" id="resultDate"></span></div>
+  <h1 id="resultTitle" style="font-size:24px;margin-top:8px">閱讀心得</h1>
+  <div class="article" id="resultBody"></div>
+ </div>
+ <div class="card" id="submitCard">
+  <h2>繳交給老師</h2>
+  <div class="note warn">🎈 線上試用版：內容只存在你自己的瀏覽器，「繳交」是流程示範，不會真的送給老師。想正式使用，到樂寫學習網免費註冊。</div>
+  <div class="note good">繳交後，文章會出現在「學習成果 → 文章管理」，由老師批改；你的閱讀歷程（四寶、觀點、故事、行動）會完整附在文章後面。</div>
+  <div class="note warn" id="submitErr" style="display:none"></div>
+  <div class="btnrow"><button class="btn primary big" id="btnSubmitArticle">📮 繳交文章（試用示範）</button></div>
+ </div>
+ <div class="card" id="submittedCard" style="display:none">
+  <h2>✅ 已繳交</h2>
+  <div class="note good">（試用示範完成）正式版會把文章送給志工老師批改，結果收在「文章管理」。</div>
+  <div class="btnrow two">
+   <a class="btn good" href="https://www.colearn30.com/" target="_blank" rel="noopener">前往樂寫學習網 ↗</a>
+   <button class="btn soft" id="btnNextArticle">✍️ 再寫下一篇</button>
+  </div>
+ </div>
+ <div class="card">
+  <h2>獲得的徽章</h2>
+  <div class="chips-wrap" id="badgeWrap"></div>
+  <div class="btnrow two">
+   <button class="btn soft" id="dlThis">📄 下載 Word 檔</button>
+   <button class="btn soft" id="prnThis">🖨 列印／存成 PDF</button>
+  </div>
+  <div class="btnrow">
+   <button class="btn ghost" data-go="portfolio">🗂 我的學習歷程</button>
+  </div>
+  <div class="btnrow two">
+   <button class="btn primary" data-go="checkin">✅ 去每日打卡</button>
+   <button class="btn ghost" data-go="home">回首頁</button>
+  </div>
+ </div>
+</section>
+
+<!-- 打卡 -->
+<section class="screen" id="s-checkin">
+ <div class="card">
+  <h2>每日打卡</h2>
+  <div class="note">每天 3 分鐘，把四寶存進你的閱讀存摺：書名、作者、一個觀點關鍵詞、一個書中故事。</div>
+  <div id="ciDoneBox" style="display:none">
+   <div class="note good">今天已經完成打卡了，明天再來！想寫完整心得就去闖關。</div>
+  </div>
+  <div id="ciForm">
+   <div class="note warn" id="ciBookWarn" style="display:none"></div>
+   <label for="c-book">書名</label>
+   <input type="text" id="c-book" placeholder="今天讀的是哪本書？">
+   <label for="c-author">作者</label>
+   <input type="text" id="c-author">
+   <label for="c-keyword">觀點關鍵詞（一個詞）</label>
+   <input type="text" id="c-keyword" placeholder="例：勇氣">
+   <label for="c-story">書中故事（一句話 ≤30 字，或一小段 ≤120 字）</label>
+   <div class="field">
+    <textarea id="c-story" placeholder="用自己的話說……"></textarea>
+    <button class="mic" data-target="c-story" title="語音輸入" type="button">🎤</button>
+   </div>
+   <div class="btnrow two">
+    <button class="btn ghost" data-go="home">← 回首頁</button>
+    <button class="btn primary" id="ciSubmit">完成打卡（+5 ✨）</button>
+   </div>
+  </div>
+ </div>
+ <div class="card">
+  <h2>最近的打卡</h2>
+  <div id="ciList"><p class="fine">還沒有打卡紀錄。</p></div>
+</section>
+
+<!-- 學習歷程 -->
+<section class="screen" id="s-portfolio">
+ <div class="card">
+  <h2>我的學習歷程</h2>
+  <div class="hero-stats">
+   <div><b id="pfSand">0</b><small>✨ 總金沙</small></div>
+   <div><b id="pfCheckins">0</b><small>✅ 打卡次數</small></div>
+   <div><b id="pfArticles">0</b><small>📝 完成文章</small></div>
+  </div>
+  <div class="note">你寫下的每一則閱讀四寶、每一篇心得都在這裡。考試引用只需要 30–50 字，這些紀錄就是你隨時可以調用的材料庫。</div>
+  <div class="btnrow two">
+   <button class="btn primary" id="dlAll">📄 全部下載（Word）</button>
+   <button class="btn soft" id="dlSeason">📄 本季 90 天（Word）</button>
+  </div>
+  <div class="btnrow">
+   <button class="btn soft" id="prnAll">🖨 列印／存成 PDF（全部）</button>
+  </div>
+ </div>
+ <div class="card">
+  <h2>紀錄</h2>
+  <div id="pfList"><p class="fine">還沒有紀錄，去寫第一篇吧！</p></div>
+  <div class="btnrow"><button class="btn ghost" data-go="home">← 回首頁</button></div>
+ </div>
+</section>
+
+</main>
+<footer class="container" style="font-size:14px;text-align:center;padding:6px 12px 28px;color:#5a5a5a"><p style="margin:0">Copyright &copy; 2020-2026 Powered by Colearn30.com. All rights reserved &middot;</p></footer>
+<div id="toast"></div>
+<script>
+window.DAILY_STEP_CLOUD=null;
+window.DAILY_STEP_CFG={studentName:"訪客",temp:null,urls:{track:"/demo-offline",article:"/demo-article",tempUrl:"/demo-offline",list:"https://www.colearn30.com/"},csrf:"demo"};
+</script>
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+const LS="lexie3gates.v2";
+const BADGES={kingkong:{icon:"💎",name:"閱讀四寶"},story:{icon:"📖",name:"故事家"},ext:{icon:"👥",name:"別人的故事"},action:{icon:"🎯",name:"行動家"},ai:{icon:"🤖",name:"AI 判斷力"}};
+const EXT_ANGLES=["家庭","學校","社會","國家","國際","自然","知識閱讀"];
+const GATES=[
+ {id:"g1",icon:"💎",tt:"第一頁｜閱讀四寶",dd:"書名・作者・關鍵詞・書中故事"},
+ {id:"g2",icon:"🙋",tt:"第二頁｜我的觀點與故事",dd:"連結你的生命經驗"},
+ {id:"g3",icon:"👥",tt:"第三頁｜別人的故事（選寫）",dd:"換位思考，或我學到了什麼"},
+ {id:"g4",icon:"🎯",tt:"第四頁｜讀後行動",dd:"一個這週做得到的行動"},
+ {id:"assembly",icon:"📄",tt:"文章組裝",dd:"自己整理或 AI 協作"}
+];
+let ui={aiStep:1};
+function freshState(){return {points:0,badges:[],checkins:[],projects:[],project:null,demo:false};}
+function load(){try{const s=JSON.parse(localStorage.getItem(LS));if(s&&typeof s==="object")return Object.assign(freshState(),s);}catch(e){}return freshState();}
+let S=load();
+/* ===== 樂寫網站整合（外掛新增區，原型邏輯不變） ===== */
+const CFG=window.DAILY_STEP_CFG||{urls:{},csrf:"",studentName:""};CFG.demo=true;
+(function syncCloud(){try{
+ const c=window.DAILY_STEP_CLOUD;
+ if(c&&typeof c==="object"){S.points=c.points||0;S.badges=c.badges||[];S.checkins=c.checkins||[];S.projects=c.projects||[];}
+ const t=CFG.temp;if(t&&typeof t==="object"&&t.project){S.project=t.project;}
+ if(S.project&&S.project.submitted){S.project=null;try{localStorage.setItem(LS,JSON.stringify(S));}catch(e){}}
+}catch(e){}})();
+function postJSON(url,data){if(CFG.demo){return Promise.resolve(url.indexOf("article")>-1?{status:200,message:"demo",redirect:"https://www.colearn30.com/"}:null);}if(!url)return Promise.resolve(null);try{return fetch(url,{method:"POST",headers:{"Content-Type":"application/json","X-CSRF-TOKEN":CFG.csrf,"X-Requested-With":"XMLHttpRequest"},body:JSON.stringify(data)}).then(function(r){return r.json();}).catch(function(){return null;});}catch(e){return Promise.resolve(null);}}
+let saveTimer=null;
+function save(){try{localStorage.setItem(LS,JSON.stringify(S));}catch(e){}
+ clearTimeout(saveTimer);saveTimer=setTimeout(function(){postJSON(CFG.urls.tempUrl,{state:{project:S.project}});},800);}
+function track(type,points,book,payload){postJSON(CFG.urls.track,{type:type,points:points||0,book:book||"",payload:payload||{}});}
+/* ===== 整合區結束 ===== */
+function todayStr(d){d=d||new Date();const p=n=>String(n).padStart(2,"0");return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate());}
+function ensureProject(){if(!S.project){S.project={book:"",author:"",keyword:"",story:"",photo:"",myView:"",myStory:"",extAngle:"",extText:"",learned:"",action:"",freeText:"",freeBook:"",draft:"",aiText:"",reflection:"",final:"",gates:{},createdAt:todayStr()};}return S.project;}
+function levelOf(p){if(p>=150)return{icon:"⛰️",name:"金山"};if(p>=50)return{icon:"⛏️",name:"金礦"};return{icon:"✨",name:"金沙"};}
+let toastTimer=null;
+function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),2200);}
+function updateChips(){const lv=levelOf(S.points);$("sandChip").textContent="✨ "+S.points+" 金沙";$("levelChip").textContent=lv.icon+" "+lv.name;}
+function addPoints(n,label){S.points+=n;save();updateChips();toast("+"+n+" ✨ 金沙｜"+label);track("point",n,(S.project&&S.project.book)||"",{label:label});}
+function award(key){if(!S.badges.includes(key)){S.badges.push(key);save();setTimeout(()=>toast("獲得徽章 "+BADGES[key].icon+" "+BADGES[key].name),1200);track("badge",0,"",{badge:key});}}
+function streak(){const days=new Set(S.checkins.map(c=>c.d));let n=0;const d=new Date();while(days.has(todayStr(d))){n++;d.setDate(d.getDate()-1);}return n;}
+function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+
+/* ---------- 路由 ---------- */
+const SCREENS=["home","map","g1","g2","g3","g4","free","assembly","result","checkin","portfolio"];
+function go(id){location.hash=id;}
+function show(id){if(!SCREENS.includes(id))id="home";
+ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+ $("s-"+id).classList.add("active");window.scrollTo(0,0);
+ updateChips();
+ ({home:renderHome,map:renderMap,g1:renderG1,g2:renderG2,g3:renderG3,g4:renderG4,free:renderFree,assembly:renderAssembly,result:renderResult,checkin:renderCheckin,portfolio:renderPortfolio}[id]||function(){})();
+}
+window.addEventListener("hashchange",()=>show((location.hash||"#home").slice(1)));
+document.querySelectorAll("[data-go]").forEach(el=>el.addEventListener("click",e=>{e.preventDefault();go(el.dataset.go);}));
+
+/* ---------- 首頁 ---------- */
+function renderHome(){$("homeSand").textContent=S.points;$("homeStreak").textContent=streak();$("homeArticles").textContent=S.projects.length;$("btnStart").textContent=S.project?"🏁 繼續闖關（寫一篇心得）":"🏁 開始闖關（寫一篇心得）";}
+$("btnStart").addEventListener("click",()=>{ensureProject();save();go("map");});
+$("btnCheckin").addEventListener("click",()=>go("checkin"));
+$("btnPortfolio").addEventListener("click",()=>go("portfolio"));
+$("btnDemo").addEventListener("click",()=>{loadDemo();toast("已載入《小王子》範例");});
+
+/* ---------- 地圖 ---------- */
+function renderMap(){const p=S.project;const done=id=>p&&p.gates[id];
+ const need=["g1","g2","g3","g4"];const n=need.filter(done).length;
+ $("mapBar").style.width=(n/4*100)+"%";
+ const list=$("gateList");list.innerHTML="";
+ GATES.forEach(g=>{
+  let lock=false,label="開始 →",cls="gate";
+  if(g.id==="g2")lock=!done("g1");
+  if(g.id==="g3")lock=!done("g2");
+  if(g.id==="g4")lock=!done("g2");
+  if(g.id==="assembly")lock=!(done("g1")&&done("g2")&&done("g4"));
+  if(done(g.id)||(g.id==="assembly"&&p&&p.final)){cls+=" done";label="✓ 完成";}
+  else if(lock){cls+=" lock";label="🔒";}
+  const b=document.createElement("button");b.className=cls;
+  b.innerHTML="<span class='ic'>"+g.icon+"</span><span><span class='tt'>"+g.tt+"</span><br><span class='dd'>"+g.dd+"</span></span><span class='st'>"+label+"</span>";
+  b.addEventListener("click",()=>go(g.id));list.appendChild(b);
+ });
+}
+
+/* ---------- 欄位綁定 ---------- */
+document.querySelectorAll("[data-bind]").forEach(el=>{
+ const key=el.dataset.bind;
+ el.addEventListener("input",()=>{const p=ensureProject();p[key]=el.value;save();
+  const c=document.querySelector('[data-count="'+key+'"]');
+  if(c){const len=el.value.replace(/\s/g,"").length;c.textContent=len;
+   if(el.dataset.warn)c.parentElement.classList.toggle("over",len>+el.dataset.warn);}
+ });
+});
+function fill(id,val){const el=$(id);el.value=val||"";el.dispatchEvent(new Event("input"));}
+
+/* ---------- 語音輸入 ---------- */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+document.querySelectorAll("button.mic").forEach(btn=>{
+ if(!SR){btn.style.display="none";return;}
+ btn.addEventListener("click",()=>{
+  const ta=$(btn.dataset.target);const r=new SR();r.lang="zh-TW";r.interimResults=false;
+  btn.classList.add("rec");
+  r.onresult=e=>{const t=e.results[0][0].transcript;ta.value=ta.value?ta.value+t:t;ta.dispatchEvent(new Event("input"));};
+  r.onend=()=>btn.classList.remove("rec");
+  r.onerror=()=>{btn.classList.remove("rec");toast("語音辨識失敗，再試一次");};
+  try{r.start();}catch(e){btn.classList.remove("rec");}
+ });
+});
+
+/* ---------- 第一頁 ---------- */
+function renderG1(){const p=ensureProject();
+ fill("f-book",p.book);fill("f-author",p.author);fill("f-keyword",p.keyword);fill("f-story",p.story);renderPhoto();}
+function renderPhoto(){const p=S.project;$("photoWrap").innerHTML=p&&p.photo?"<img src='"+p.photo+"' alt='手寫稿照片'>":"";}
+$("photoInput").addEventListener("change",()=>{const f=$("photoInput").files[0];if(!f)return;
+ const rd=new FileReader();rd.onload=()=>{const img=new Image();img.onload=()=>{
+  const cv=document.createElement("canvas");const sc=Math.min(1,800/img.width);
+  cv.width=Math.round(img.width*sc);cv.height=Math.round(img.height*sc);
+  cv.getContext("2d").drawImage(img,0,0,cv.width,cv.height);
+  ensureProject().photo=cv.toDataURL("image/jpeg",0.75);save();renderPhoto();toast("照片已上傳");};img.src=rd.result;};
+ rd.readAsDataURL(f);});
+$("pass1").addEventListener("click",()=>{const p=ensureProject();
+ if(!p.book.trim()||!p.author.trim()||!p.keyword.trim()||!p.story.trim()){toast("四樣寶物要全部存進去喔");return;}
+ if(p.story.replace(/\s/g,"").length>120){toast("書中故事超過 120 字囉，精簡一下再過關");return;}
+ if(!p.gates.g1){p.gates.g1=true;addPoints(5,"完成第一頁");award("kingkong");}
+ save();go("map");});
+
+/* ---------- 第二頁 ---------- */
+function renderG2(){const p=ensureProject();fill("f-myview",p.myView);fill("f-mystory",p.myStory);
+ $("kwEcho1").textContent=p.keyword?p.keyword:"這個觀點";
+ $("g2note").textContent=p.keyword?("你選的關鍵詞是「"+p.keyword+"」。你同意這個觀點嗎？然後，講一個你自己的故事。"):"從你的關鍵詞出發：你同意書中的觀點嗎？然後，講一個你自己的故事。";}
+$("pass2").addEventListener("click",()=>{const p=ensureProject();
+ if(!p.myView.trim()){toast("先寫下你的觀點");return;}
+ if(p.myStory.replace(/\s/g,"").length<50){toast("我的故事至少 50 字，先寫再說，流水帳也沒關係");return;}
+ if(!p.gates.g2){p.gates.g2=true;addPoints(10,"完成第二頁");award("story");}
+ save();go("map");});
+
+/* ---------- 第三頁 ---------- */
+function renderG3(){const p=ensureProject();
+ const w=$("angleWrap");w.innerHTML="";
+ EXT_ANGLES.forEach(a=>{const b=document.createElement("button");b.type="button";b.className="angle"+(p.extAngle===a?" on":"");b.textContent=a;
+  b.addEventListener("click",()=>{p.extAngle=p.extAngle===a?"":a;save();renderG3();});w.appendChild(b);});
+ fill("f-exttext",p.extText);fill("f-learned",p.learned);}
+$("pass3").addEventListener("click",()=>{const p=ensureProject();
+ if(p.extText.trim()&&p.extAngle){
+  if(!p.gates.g3){p.gates.g3=true;addPoints(10,"完成別人的故事");award("ext");}
+ }else if(p.learned.trim()){
+  if(!p.gates.g3){p.gates.g3=true;addPoints(5,"完成第三頁");}
+ }else{toast("寫一個別人的故事，或一句「我學到了什麼」就可以過關");return;}
+ save();go("map");});
+
+/* ---------- 第四頁 ---------- */
+function renderG4(){const p=ensureProject();fill("f-action",p.action);}
+$("pass4").addEventListener("click",()=>{const p=ensureProject();
+ if(!p.action.trim()){toast("寫下一個這週做得到的行動");return;}
+ if(!p.gates.g4){p.gates.g4=true;addPoints(5,"完成第四頁");award("action");}
+ save();go("map");});
+
+/* ---------- 自由書寫 ---------- */
+function renderFree(){const p=ensureProject();fill("f-free",p.freeText);fill("f-freebook",p.freeBook);}
+$("f-freebook").addEventListener("input",()=>{ensureProject().freeBook=$("f-freebook").value;save();});
+$("passFree").addEventListener("click",()=>{const p=ensureProject();
+ if(!p.freeBook.trim()){toast("先填書名");return;}
+ if(p.freeText.replace(/\s/g,"").length<30){toast("再多寫一點（至少 30 字）");return;}
+ p.book=p.freeBook;p.gates.g1=p.gates.g1||true;p.gates.g2=p.gates.g2||true;p.gates.g4=p.gates.g4||true;p.freeMode=true;
+ if(!p.gates.free){p.gates.free=true;addPoints(15,"完成自由書寫");}
+ save();go("assembly");});
+
+/* ---------- 組裝 ---------- */
+function buildDraft(p){
+ if(p.freeMode)return p.freeText;
+ const parts=[];
+ parts.push(p.book+"的作者是"+p.author+"。書中讓我印象最深的是「"+p.keyword+"」。"+p.story);
+ parts.push(p.myView);
+ parts.push(p.myStory);
+ if(p.extText.trim())parts.push(p.extText);
+ else if(p.learned.trim())parts.push("讀完這本書，我學到："+p.learned);
+ parts.push("讀了這本書，我決定："+p.action);
+ return parts.join("\n\n");
+}
+function buildPrompt(p){
+ const ext=p.extText.trim()?("【別人的故事（"+p.extAngle+"）】"+p.extText):("【我學到了什麼】"+p.learned);
+ return "你是寫作教練。以下是一位學生的閱讀心得材料，請只調整「結構」，不要修辭。\n規則：\n1. 可以調整段落順序，最多補兩句過場句，讓段落接得起來。\n2. 不可以改寫他的句子，不可以加入他沒提到的觀點、例子或書中情節。\n3. 保留他的第一人稱語氣與用字。\n4. 調整幅度上限：全文改動不超過五分之一。\n輸出：（1）調整後的完整文章；（2）條列說明你改了哪些地方、為什麼。\n\n學生的材料：\n【書名】"+p.book+"\n【作者】"+p.author+"\n【觀點關鍵詞】"+p.keyword+"\n【書中故事】"+p.story+"\n【我的觀點】"+p.myView+"\n【我的故事】"+p.myStory+"\n"+ext+"\n【讀後行動】"+p.action;
+}
+function renderAssembly(){const p=S.project;ui.aiStep=1;
+ const ok=p&&(p.gates.g1&&p.gates.g2&&p.gates.g4);
+ $("asmLocked").style.display=ok?"none":"block";
+ $("asmMain").style.display=ok?"block":"none";
+ if(!ok)return;
+ p.draft=buildDraft(p);save();
+ $("draftView").textContent=p.draft;
+ $("selfBox").style.display="none";$("aiBox").style.display="none";
+ showAiStep(1);
+}
+function showAiStep(n){ui.aiStep=n;const _p=S.project;if(_p){if(String(n)==="2")fill("ta-ai",_p.aiText||"");if(String(n)==="4")fill("ta-refl",_p.reflection||"");}[1,2,3,"3b",4].forEach(k=>{const el=$("aiStep"+k);if(el)el.style.display=(String(k)===String(n))?"block":"none";});}
+$("btnSelf").addEventListener("click",()=>{const p=S.project;$("aiBox").style.display="none";$("selfBox").style.display="block";$("ta-self").value=p.selfText||p.draft;window.scrollTo(0,$("selfBox").offsetTop-80);});
+$("btnAI").addEventListener("click",()=>{const p=S.project;$("selfBox").style.display="none";$("aiBox").style.display="block";$("promptBox").textContent=buildPrompt(p);showAiStep(1);window.scrollTo(0,$("aiBox").offsetTop-80);});
+$("btnCopy").addEventListener("click",async()=>{const t=$("promptBox").textContent;
+ try{await navigator.clipboard.writeText(t);toast("已複製，去貼給 AI 吧");}
+ catch(e){const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();toast("已複製，去貼給 AI 吧");}});
+$("toStep2").addEventListener("click",()=>showAiStep(2));
+$("backStep1").addEventListener("click",()=>showAiStep(1));
+$("toStep3").addEventListener("click",()=>{const p=S.project;
+ if(!p.aiText||p.aiText.replace(/\s/g,"").length<20){toast("先把 AI 調整後的文章貼上來");return;}
+ if(p.aiText.trim()===p.draft.trim()){toast("看起來跟草稿一模一樣，AI 沒有改動嗎？");return;}
+ renderDiff();showAiStep(3);});
+
+/* 字元級 LCS diff */
+function lcsDiff(a,b){
+ const m=a.length,n=b.length;
+ if(m*n>6000000)return null;
+ const w=n+1,dp=new Int32Array((m+1)*w);
+ for(let i=m-1;i>=0;i--){const ai=a[i];for(let j=n-1;j>=0;j--){dp[i*w+j]=ai===b[j]?dp[(i+1)*w+j+1]+1:Math.max(dp[(i+1)*w+j],dp[i*w+j+1]);}}
+ const ops=[];let i=0,j=0;
+ while(i<m&&j<n){if(a[i]===b[j]){ops.push({t:0,v:a[i]});i++;j++;}else if(dp[(i+1)*w+j]>=dp[i*w+j+1]){ops.push({t:-1,v:a[i]});i++;}else{ops.push({t:1,v:b[j]});j++;}}
+ while(i<m)ops.push({t:-1,v:a[i++]});while(j<n)ops.push({t:1,v:b[j++]});
+ const out=[];for(const o of ops){const last=out[out.length-1];if(last&&last.t===o.t)last.v+=o.v;else out.push({t:o.t,v:o.v});}
+ return out;
+}
+function renderDiff(){const p=S.project;const ops=lcsDiff(p.draft,p.aiText);
+ if(!ops){$("diffMerged").textContent="文章太長，請用並排對照。";}
+ else{
+  let merged="",oldS="",newS="";
+  for(const o of ops){
+   if(o.t===0){merged+=esc(o.v);oldS+=esc(o.v);newS+=esc(o.v);}
+   else if(o.t===1){merged+='<span class="diff-add">'+esc(o.v)+"</span>";newS+='<span class="diff-add">'+esc(o.v)+"</span>";}
+   else{merged+='<span class="diff-del">'+esc(o.v)+"</span>";oldS+='<span class="diff-del">'+esc(o.v)+"</span>";}
+  }
+  $("diffMerged").innerHTML=merged;$("diffOld").innerHTML=oldS;$("diffNew").innerHTML=newS;
+ }
+ $("diffMerged").style.display="block";$("diffSide").style.display="none";
+}
+$("viewMerged").addEventListener("click",()=>{$("diffMerged").style.display="block";$("diffSide").style.display="none";$("viewMerged").className="btn soft";$("viewSide").className="btn ghost";});
+$("viewSide").addEventListener("click",()=>{$("diffMerged").style.display="none";$("diffSide").style.display="grid";$("viewSide").className="btn soft";$("viewMerged").className="btn ghost";});
+$("btnUseAI").addEventListener("click",()=>{S.project.final=S.project.aiText;save();showAiStep(4);});
+$("btnEditAI").addEventListener("click",()=>{$("ta-aiedit").value=S.project.aiText;showAiStep("3b");});
+$("aiEditDone").addEventListener("click",()=>{const t=$("ta-aiedit").value;
+ if(t.replace(/\s/g,"").length<30){toast("再多寫一點");return;}
+ S.project.final=t;save();showAiStep(4);});
+function finishArticle(viaAI){const p=S.project;
+ if(!p.gates.asm){p.gates.asm=true;addPoints(20,"完成文章");}
+ if(viaAI&&!p.gates.ai){p.gates.ai=true;addPoints(10,"AI 協作與反思");award("ai");}
+ if(!p.archived){p.archived=true;S.projects.push({d:todayStr(),book:p.book,author:p.author,keyword:p.keyword,final:p.final,reflection:p.reflection||""});}
+ save();go("result");}
+$("selfDone").addEventListener("click",()=>{const t=$("ta-self").value;
+ if(t.replace(/\s/g,"").length<30){toast("再多寫一點");return;}
+ S.project.final=t;save();finishArticle(false);});
+$("aiAllDone").addEventListener("click",()=>{const p=S.project;
+ p.reflection=$("ta-refl").value;
+ if(p.reflection.replace(/\s/g,"").length<20){toast("請用完整句子回答（至少 20 字）");return;}
+ if(!p.final)p.final=p.aiText;
+ save();finishArticle(true);});
+
+/* ---------- 成果 ---------- */
+function renderResult(){const p=S.project;if(!p){go("home");return;}
+ $("resultTitle").textContent="《"+(p.book||"我的書")+"》閱讀心得";
+ $("resultBody").textContent=p.final||p.draft||"（還沒有完成的文章）";
+ $("resultDate").textContent=p.createdAt||todayStr();
+ $("resultBookChip").textContent="🎉 完成文章";
+ const w=$("badgeWrap");w.innerHTML="";
+ const keys=S.badges.length?S.badges:["kingkong"];
+ keys.forEach(k=>{const b=BADGES[k];if(!b)return;const s=document.createElement("span");s.className="chip earn";s.textContent=b.icon+" "+b.name;w.appendChild(s);});
+ $("submitCard").style.display=p.submitted?"none":"block";
+ $("submittedCard").style.display=p.submitted?"block":"none";
+}
+$("dlThis").addEventListener("click",()=>{const p=S.project;if(!p)return;
+ downloadDoc("閱讀心得_"+p.book+"_"+todayStr()+".doc",docHtml("《"+p.book+"》閱讀心得",articleDoc(p)));toast("已下載 Word 檔");});
+$("prnThis").addEventListener("click",()=>{const p=S.project;if(!p)return;printDoc("《"+p.book+"》閱讀心得",articleDoc(p));});
+
+/* ---------- 打卡 ---------- */
+function renderCheckin(){
+ const doneToday=S.checkins.some(c=>c.d===todayStr());
+ $("ciDoneBox").style.display=doneToday?"block":"none";
+ $("ciForm").style.display=doneToday?"none":"block";
+ $("ciBookWarn").style.display="none";
+ const list=$("ciList");
+ if(!S.checkins.length){list.innerHTML="<p class='fine'>還沒有打卡紀錄。</p>";return;}
+ list.innerHTML=S.checkins.slice(-7).reverse().map(c=>'<div class="rec-item"><b>《'+esc(c.book)+"》</b>　"+esc(c.keyword)+'<br><span class="d">'+c.d+"・"+esc(c.author)+"・"+esc(c.story)+"</span></div>").join("");
+}
+$("ciSubmit").addEventListener("click",()=>{
+ const book=$("c-book").value.trim(),author=$("c-author").value.trim(),kw=$("c-keyword").value.trim(),story=$("c-story").value.trim();
+ if(!book||!author||!kw||!story){toast("四個欄位都要填喔");return;}
+ if(story.replace(/\s/g,"").length>120){toast("書中故事請控制在 120 字內");return;}
+ const same=S.checkins.filter(c=>c.book===book).length;
+ if(same>=10){const w=$("ciBookWarn");w.textContent="《"+book+"》已經打卡 10 次了——換一本書，繼續你的閱讀冒險吧！";w.style.display="block";return;}
+ S.checkins.push({d:todayStr(),book:book,author:author,keyword:kw,story:story});
+ save();S.points+=5;updateChips();toast("+5 ✨ 金沙｜每日打卡");
+ postJSON(CFG.urls.track,{type:"checkin",points:5,book:book,payload:{d:todayStr(),book:book,author:author,keyword:kw,story:story}}).then(function(r){
+  if(r&&r.status==201){S.checkins=S.checkins.filter(function(c){return !(c.d===todayStr()&&c.book===book);});S.points=Math.max(0,S.points-5);save();updateChips();renderCheckin();toast(r.message||"打卡未成功");}
+ });
+ $("c-book").value=$("c-author").value=$("c-keyword").value=$("c-story").value="";
+ renderCheckin();});
+
+/* ---------- 學習歷程 ---------- */
+function renderPortfolio(){
+ $("pfSand").textContent=S.points;$("pfCheckins").textContent=S.checkins.length;$("pfArticles").textContent=S.projects.length;
+ const items=[];
+ S.projects.forEach((a,idx)=>items.push({d:a.d,html:'<div class="rec-item">📝 <b>《'+esc(a.book)+"》閱讀心得</b><button class=\"btn ghost reviseBtn\" data-idx=\""+idx+"\" type=\"button\" style=\"width:auto;min-height:34px;padding:2px 12px;font-size:14px;float:right\">✏️ 再修改</button><br><span class='d'>"+a.d+"・關鍵詞："+esc(a.keyword||"—")+"</span></div>"}));
+ S.checkins.forEach(c=>items.push({d:c.d,html:'<div class="rec-item">✅ 打卡《'+esc(c.book)+"》　"+esc(c.keyword)+'<br><span class="d">'+c.d+"</span></div>"}));
+ items.sort((a,b)=>a.d<b.d?1:-1);
+ $("pfList").innerHTML=items.length?items.map(i=>i.html).join(""):"<p class='fine'>還沒有紀錄，去寫第一篇吧！</p>";
+ document.querySelectorAll(".reviseBtn").forEach(b=>b.addEventListener("click",()=>revise(+b.dataset.idx)));
+}
+function portfolioMd(days){let cut=null;
+ if(days){const d=new Date();d.setDate(d.getDate()-days);cut=todayStr(d);}
+ const lines=["# 我的學習歷程","","匯出日期："+todayStr(),"總金沙："+S.points+"　打卡："+S.checkins.length+" 次　完成文章："+S.projects.length+" 篇",""];
+ const arts=S.projects.filter(a=>!cut||a.d>=cut);
+ const cks=S.checkins.filter(c=>!cut||c.d>=cut);
+ if(arts.length){lines.push("## 完成文章","");arts.forEach(a=>{lines.push("### 《"+a.book+"》閱讀心得（"+a.d+"）","",a.final||"",a.reflection?("\n> AI 協作反思："+a.reflection):"","");});}
+ if(cks.length){lines.push("## 每日打卡（閱讀四寶）","");cks.forEach(c=>{lines.push("- **"+c.d+"**｜《"+c.book+"》"+c.author+"｜關鍵詞："+c.keyword+"｜"+c.story);});lines.push("");}
+ return lines.join("\n");
+}
+/* ---------- Word／PDF 下載（2026-08-26 定案：取代 .md） ---------- */
+function paras(t){return String(t||"").split(/\n{2,}/).map(function(p){return "<p>"+esc(p).replace(/\n/g,"<br>")+"</p>";}).join("");}
+function docHtml(title,bodyHtml){return "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>"+esc(title)+"</title><style>body{font-family:'微軟正黑體','Microsoft JhengHei',sans-serif;font-size:15px;line-height:1.8;color:#333}h1{font-size:32px}h2{font-size:20px;color:#34a3a2}p{font-size:15px}</style></head><body>"+bodyHtml+"</body></html>";}
+function downloadDoc(name,html){const blob=new Blob(["\ufeff"+html],{type:"application/msword"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},200);}
+function printDoc(title,bodyHtml){const w=window.open("","_blank");if(!w){toast("請允許彈出視窗，再按一次");return;}w.document.write(docHtml(title,bodyHtml));w.document.close();w.focus();setTimeout(function(){try{w.print();}catch(e){}},400);}
+function articleDoc(p){let h="<h1>《"+esc(p.book)+"》閱讀心得</h1><p>作者："+esc(p.author)+"　日期："+esc(p.createdAt||todayStr())+"</p>"+paras(p.final||"");if(p.reflection&&p.reflection.trim()){h+="<h2>AI 協作反思</h2>"+paras(p.reflection);}return h;}
+function portfolioDoc(days){let cut=null;if(days){const d=new Date();d.setDate(d.getDate()-days);cut=todayStr(d);}
+ let h="<h1>我的學習歷程</h1><p>匯出日期："+todayStr()+"　總金沙："+S.points+"　打卡："+S.checkins.length+" 次　完成文章："+S.projects.length+" 篇</p>";
+ const arts=S.projects.filter(function(a){return !cut||a.d>=cut;});const cks=S.checkins.filter(function(c){return !cut||c.d>=cut;});
+ if(arts.length){h+="<h2>完成文章</h2>";arts.forEach(function(a){h+="<h2>《"+esc(a.book)+"》閱讀心得（"+esc(a.d)+"）</h2>"+paras(a.final||"");if(a.reflection){h+="<p><b>AI 協作反思：</b>"+esc(a.reflection)+"</p>";}});}
+ if(cks.length){h+="<h2>每日打卡（閱讀四寶）</h2>";cks.forEach(function(c){h+="<p><b>"+esc(c.d)+"</b>｜《"+esc(c.book)+"》"+esc(c.author)+"｜關鍵詞："+esc(c.keyword)+"｜"+esc(c.story)+"</p>";});}
+ return h;}
+function download(name,text){const blob=new Blob([text],{type:"text/markdown;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},200);}
+$("dlAll").addEventListener("click",()=>{downloadDoc("學習歷程_全部_"+todayStr()+".doc",docHtml("我的學習歷程",portfolioDoc(0)));toast("已下載 Word 檔");});
+$("dlSeason").addEventListener("click",()=>{downloadDoc("學習歷程_本季_"+todayStr()+".doc",docHtml("我的學習歷程（本季 90 天）",portfolioDoc(90)));toast("已下載 Word 檔");});
+$("prnAll").addEventListener("click",()=>{printDoc("我的學習歷程",portfolioDoc(0));});
+
+/* ---------- 小王子範例 ---------- */
+function loadDemo(silent){
+ S.project={book:"小王子",author:"安東尼・聖修伯里",keyword:"馴養",
+  story:"狐狸教小王子「馴養」：建立關係，讓彼此成為唯一。",
+  photo:"",
+  myView:"我同意。關係的價值不在對方本來多特別，而在你願意為他花多少時間。",
+  myStory:"我原本和隔壁班的同學不熟，直到我們一起準備科展，每天放學留下來半小時。三個月後，他變成我最信任的朋友。我這才明白狐狸說的：正因為你為你的玫瑰花了時間，她才變得那麼重要。",
+  extAngle:"家庭",
+  extText:"在家庭裡，爸媽每天花時間陪我吃飯、聽我講學校的事，其實就是在馴養我們的關係。有些家庭明明住在一起卻像陌生人，差別就在有沒有花時間。",
+  learned:"",action:"這個星期，每天放下手機十分鐘，認真聽家人說話。",
+  freeText:"",freeBook:"",gates:{g1:true,g2:true,g3:true,g4:true,asm:true,ai:true},createdAt:todayStr()};
+ const p=S.project;p.draft=buildDraft(p);
+ p.aiText="我原本和隔壁班的同學不熟，直到我們一起準備科展，每天放學留下來半小時。三個月後，他變成我最信任的朋友。這樣的經驗，讓我讀《小王子》時特別有感。\n\n《小王子》的作者是安東尼・聖修伯里，書中讓我印象最深的是「馴養」。狐狸教小王子「馴養」：建立關係，讓彼此成為唯一。我同意這個觀點：關係的價值不在對方本來多特別，而在你願意為他花多少時間。正因為你為你的玫瑰花了時間，她才變得那麼重要。\n\n這個道理不只在朋友之間。在家庭裡，爸媽每天花時間陪我吃飯、聽我講學校的事，其實就是在馴養我們的關係。有些家庭明明住在一起卻像陌生人，差別就在有沒有花時間。\n\n讀了這本書，我決定：這個星期，每天放下手機十分鐘，認真聽家人說話。";
+ p.reflection="我覺得 AI 改得好。它把我的故事移到最前面，先講故事再講道理，讀起來更順。但它補的過場句有點像作文範本，我想換成自己的話。";
+ p.final=p.aiText;
+ save();
+ if(!silent)go("result");
+}
+
+/* ---------- 繳交文章（外掛新增） ---------- */
+$("btnSubmitArticle").addEventListener("click",()=>{const p=S.project;
+ if(!p||!(p.final||p.draft)){toast("還沒有完稿可以繳交");return;}
+ if(p.submitted){toast("這篇已經繳交過囉");renderResult();return;}
+ const btn=$("btnSubmitArticle");btn.disabled=true;btn.textContent="繳交中……";$("submitErr").style.display="none";
+ if(!p.final)p.final=p.draft;
+ const lines=[];
+ lines.push(p.final);
+ lines.push("");lines.push("――――――――――");lines.push("【閱讀歷程紀錄】");
+ if(!p.freeMode){
+  lines.push("◆ 第一頁｜閱讀四寶：書名《"+p.book+"》／作者："+p.author+"／觀點關鍵詞："+p.keyword+"／書中故事："+p.story);
+  lines.push("◆ 第二頁｜我的觀點："+p.myView);
+  lines.push("◆ 我的故事："+p.myStory);
+  if(p.extText&&p.extText.trim())lines.push("◆ 第三頁｜別人的故事（"+p.extAngle+"）："+p.extText);
+  else if(p.learned&&p.learned.trim())lines.push("◆ 第三頁｜我學到了什麼："+p.learned);
+  lines.push("◆ 第四頁｜讀後行動："+p.action);
+ }else{lines.push("◆ 自由書寫通道（不使用框架）");}
+ if(p.draft&&p.draft.trim()&&p.final.trim()!==p.draft.trim()){lines.push("");lines.push("【組裝草稿】");lines.push(p.draft);}
+ if(p.aiText&&p.aiText.trim()&&p.aiText.trim()!==p.final.trim()){lines.push("");lines.push("【AI 協作版本】");lines.push(p.aiText);}
+ if(p.reflection&&p.reflection.trim()){lines.push("");lines.push("【AI 協作反思】");lines.push(p.reflection);}
+ postJSON(CFG.urls.article,{title:"《"+(p.book||"我的書")+"》閱讀心得",content:lines.join("\n"),path:p.freeMode?"free":(p.aiText?"ai":"self"),book:p.book||"",author:p.author||"",keyword:p.keyword||"",final:p.final,reflection:p.reflection||""}).then(function(r){
+  btn.disabled=false;btn.textContent="📮 繳交文章";
+  if(r&&r.status==200){p.submitted=true;save();renderResult();toast("✅ 已繳交！到「文章管理」可以看見");}
+  else{const em=(r&&r.message)?r.message:"繳交失敗，請稍後再試";const eb=$("submitErr");eb.textContent="⚠️ "+em+"（你的內容都還在，可以直接再按一次）";eb.style.display="block";toast(em);}
+ });});
+$("btnNextArticle").addEventListener("click",()=>{S.project=null;save();go("home");toast("開始寫下一本書吧");});
+
+/* ---------- 各頁回上一步（外掛新增） ---------- */
+$("selfBack").addEventListener("click",()=>{$("selfBox").style.display="none";window.scrollTo(0,$("draftView").offsetTop-60);});
+$("aiBack0").addEventListener("click",()=>{$("aiBox").style.display="none";window.scrollTo(0,$("draftView").offsetTop-60);});
+$("aiBack2").addEventListener("click",()=>showAiStep(2));
+$("aiBack3").addEventListener("click",()=>showAiStep(3));
+$("aiBack4").addEventListener("click",()=>showAiStep(3));
+
+/* ---------- 再修改（外掛新增：載入已繳交文章重新編輯） ---------- */
+function revise(idx){const a=S.projects[idx];if(!a)return;
+ if(S.project&&S.project.book&&!S.project.submitted){if(!confirm("目前已有一篇寫到一半的《"+S.project.book+"》，「再修改」會覆蓋它。確定嗎？"))return;}
+ S.project={book:a.book||"",author:a.author||"",keyword:a.keyword||"",story:"",photo:"",myView:"",myStory:"",extAngle:"",extText:"",learned:"",action:"",freeText:"",freeBook:"",draft:a.final||"",aiText:"",reflection:a.reflection||"",final:a.final||"",gates:{g1:true,g2:true,g3:true,g4:true,asm:true},createdAt:todayStr(),selfText:a.final||""};
+ save();go("assembly");setTimeout(()=>{S.project.draft=S.project.final;$("draftView").textContent=S.project.final;$("btnSelf").click();$("ta-self").value=S.project.final;},150);toast("已載入上次的文章，改完按「完成文章」再繳交");}
+
+/* ---------- 啟動 ---------- */
+(function init(){
+ const params=new URLSearchParams(location.search);
+ if(params.get("demo")==="1"&&!S.project){loadDemo(true);}
+ if(params.get("qa")==="diff"){if(!S.project)loadDemo(true);S.project.draft=buildDraft(S.project);save();}
+ show((location.hash||"#home").slice(1));
+ if(params.get("qa")==="diff"){$("btnAI").click();renderDiff();showAiStep(3);}
+})();
+</script>
+</body>
+</html>
