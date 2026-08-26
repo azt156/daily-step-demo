@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>每日一小步・閱讀三關（線上試用）｜樂寫學習網</title>
-<meta name="csrf-token" content="demo">
-<link rel="icon" href="favicon.ico">
+
+<link rel="icon" href="">
 <style>
 :root{
  --text:#333333; --text2:#787878; --canvas:#FFFFFF; --soft:#F0F0F0; --soft2:#E4E4E4;
@@ -14,7 +14,7 @@
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;font-family:"Ubuntu","微軟正黑體","Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;background:#85C8C5 url("images/restaurant.webp") repeat center;background-size:cover;color:var(--text);font-size:16px;line-height:1.7}
+body{margin:0;font-family:"Ubuntu","微軟正黑體","Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;background:#85C8C5 url("") repeat center;background-size:cover;color:var(--text);font-size:16px;line-height:1.7}
 .bar{position:sticky;top:0;z-index:20;background:var(--canvas);border-bottom:1px solid var(--border)}
 .bar-inner{max-width:720px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:8px}
 .brand{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;min-width:0}
@@ -98,11 +98,16 @@ pre.prompt{white-space:pre-wrap;word-break:break-word;background:var(--soft);bor
 .kv{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
 .tabs{display:flex;gap:8px;margin:12px 0}
 .tabs .btn{width:auto;min-height:38px;padding:6px 14px;font-size:14px}
+.hero-stats{flex-wrap:wrap}
+.tpldot{width:44px;height:44px;border-radius:50%;border:2px solid transparent;cursor:pointer;padding:0;flex-shrink:0}
+.tpldot.on{border-color:var(--text);box-shadow:0 0 0 2px var(--canvas),0 0 0 4px var(--text)}
+.datepick{font-size:15px}
+.ci-card-btn{width:auto;min-height:34px;padding:2px 12px;font-size:14px;float:right}
 </style>
 </head>
 <body>
 <header class="bar"><div class="bar-inner">
- <div class="brand">🌱 每日一小步 <span class="tag">閱讀三關 v2.1・線上試用版</span><a class="tag homelink" href="https://www.colearn30.com/">← 回樂寫首頁</a></div>
+ <div class="brand">🌱 每日一小步 <span class="tag">線上試用版・進度只存在這台裝置</span><a class="tag homelink" href="https://colearn30.com">← 回樂寫首頁</a></div>
  <div class="chips"><span class="chip" id="sandChip">✨ 0 金沙</span><span class="chip" id="levelChip">✨ 金沙</span></div>
 </div></header>
 <main class="wrap">
@@ -112,10 +117,11 @@ pre.prompt{white-space:pre-wrap;word-break:break-word;background:var(--soft);bor
  <div class="card">
   <h1>每天 5 分鐘<br>把讀過的書，變成你的寫作資料庫</h1>
   <p class="sub">不用讀完整本書。一個章節、一個觀點、一個故事，就能開始。</p>
-  <div class="note" style="margin-top:12px"><b>兩種玩法，自由選：</b><br>✅ <b>每日打卡</b>＝3 分鐘留下「閱讀四寶」（書名、作者、觀點關鍵詞、書中故事），一天一次，只存在自己的學習歷程<br>🏁 <b>闖關</b>＝走完四頁寫成一篇完整心得，繳交給老師批改（收在「學習成果 → 文章管理」）</div>
+  <div class="note" style="margin-top:12px"><b>兩種玩法，自由選：</b><br>✅ <b>每日打卡</b>＝3 分鐘留下「閱讀四寶」（書名、作者、觀點關鍵詞、書中故事），一天一次，只存在自己的學習歷程；漏打的日子 7 天內可以補<br>🏁 <b>闖關</b>＝走完四頁寫成一篇完整心得，繳交給老師批改（收在「學習成果 → 文章管理」）<br>✨ 打完卡還能把今天的金句做成卡片，分享到 IG／FB</div>
   <div class="hero-stats">
    <div><b id="homeSand">0</b><small>✨ 金沙</small></div>
-   <div><b id="homeStreak">0</b><small>🔥 連續打卡天數</small></div>
+   <div><b id="homeStreak">0</b><small>🔥 連續打卡</small></div>
+   <div><b id="homeTotal">0</b><small>📚 累計天數</small></div>
    <div><b id="homeArticles">0</b><small>📝 完成文章</small></div>
   </div>
   <button class="btn primary big" id="btnStart">🏁 開始闖關（寫一篇心得）</button>
@@ -131,11 +137,11 @@ pre.prompt{white-space:pre-wrap;word-break:break-word;background:var(--soft);bor
    <li><b>① 閱讀四寶</b><span>每天存四樣：書名、作者、一個觀點關鍵詞、一個書中故事</span></li>
    <li><b>② 我的觀點與故事</b><span>連結你自己的生命經驗（50 字以上）</span></li>
    <li><b>③ 別人的故事</b><span>選寫：換個位置想別人，或寫下「我學到了什麼」</span></li>
-   <li><b>④ 讀後行動</b><span>一個這週就做得到的行動，然後組成文章</span></li>
+   <li><b>④ 讀後行動</b><span>一個這��就做得到的行動，然後組成文章</span></li>
   </ol>
   <p class="fine">不想用框架？<a href="#free" data-go="free">直接自由書寫</a>也可以。</p>
  </div>
- <p class="privacy">內容會自動存到你的樂寫帳號：積分、徽章、打卡與學習歷程，換裝置也會帶回。</p>
+ <p class="privacy">這是線上試用版：積分、徽章、打卡與學習歷程只存在這台裝置的瀏覽器。正式版請到 colearn30.com。</p>
 </section>
 
 <!-- 關卡地圖 -->
@@ -240,7 +246,7 @@ pre.prompt{white-space:pre-wrap;word-break:break-word;background:var(--soft);bor
    <button class="mic" data-target="f-action" title="語音輸入" type="button">🎤</button>
   </div>
   <div class="btnrow two">
-   <button class="btn ghost" data-go="map">← 回地圖</button>
+   <button class="btn ghost" data-go="map">← 回地��</button>
    <button class="btn primary" id="pass4">完成第四頁（+5 ✨）</button>
   </div>
  </div>
@@ -280,7 +286,7 @@ pre.prompt{white-space:pre-wrap;word-break:break-word;background:var(--soft);bor
    <div class="diffview" id="draftView"></div>
    <div class="btnrow two">
     <button class="btn soft" id="btnSelf">✍️ 我自己整理</button>
-    <button class="btn primary" id="btnAI">🤖 AI 協作（推薦）</button>
+    <button class="btn primary" id="btnAI">🤖 AI ��作（推薦）</button>
    </div>
    <div class="btnrow"><button class="btn ghost" data-go="map">← 回關卡地圖改材料</button></div>
   </div>
@@ -363,16 +369,15 @@ pre.prompt{white-space:pre-wrap;word-break:break-word;background:var(--soft);bor
  </div>
  <div class="card" id="submitCard">
   <h2>繳交給老師</h2>
-  <div class="note warn">🎈 線上試用版：內容只存在你自己的瀏覽器，「繳交」是流程示範，不會真的送給老師。想正式使用，到樂寫學習網免費註冊。</div>
-  <div class="note good">繳交後，文章會出現在「學習成果 → 文章管理」，由老師批改；你的閱讀歷程（四寶、觀點、故事、行動）會完整附在文章後面。</div>
+  <div class="note good">線上試用版：繳交僅示範流程，不會真的送出。正式版繳交後，文章會出現在「學習成果 → 文章管理」，由老師批改；你的閱讀歷程（四寶、觀點、故事、行動）會完整附在文章後面。</div>
   <div class="note warn" id="submitErr" style="display:none"></div>
-  <div class="btnrow"><button class="btn primary big" id="btnSubmitArticle">📮 繳交文章（試用示範）</button></div>
+  <div class="btnrow"><button class="btn primary big" id="btnSubmitArticle">📮 繳交文章</button></div>
  </div>
  <div class="card" id="submittedCard" style="display:none">
   <h2>✅ 已繳交</h2>
-  <div class="note good">（試用示範完成）正式版會把文章送給志工老師批改，結果收在「文章管理」。</div>
+  <div class="note good">試用版已完成示範繳交。正式版在老師批改後，結果會顯示在文章管理（colearn30.com）。</div>
   <div class="btnrow two">
-   <a class="btn good" href="https://www.colearn30.com/" target="_blank" rel="noopener">前往樂寫學習網 ↗</a>
+   <a class="btn good" href="https://colearn30.com" target="_blank" rel="noopener">前往文章管理 ↗</a>
    <button class="btn soft" id="btnNextArticle">✍️ 再寫下一篇</button>
   </div>
  </div>
@@ -399,7 +404,13 @@ pre.prompt{white-space:pre-wrap;word-break:break-word;background:var(--soft);bor
   <h2>每日打卡</h2>
   <div class="note">每天 3 分鐘，把四寶存進你的閱讀存摺：書名、作者、一個觀點關鍵詞、一個書中故事。</div>
   <div id="ciDoneBox" style="display:none">
-   <div class="note good">今天已經完成打卡了，明天再來！想寫完整心得就去闖關。</div>
+   <div class="note good">今天已經完成打卡了，明天再來！</div>
+   <div class="btnrow"><button class="btn primary" id="ciToCard">✨ 把今天的金句做成卡片（分享 IG／FB）</button></div>
+   <div class="btnrow"><button class="btn soft" id="ciToGate">🏁 順手把今天的心得寫完（去闖關）</button></div>
+   <div class="btnrow two">
+    <button class="btn ghost" id="ciMakeup">📅 補前幾天的打卡</button>
+    <button class="btn ghost" data-go="home">← 回首頁</button>
+   </div>
   </div>
   <div id="ciForm">
    <div class="note warn" id="ciBookWarn" style="display:none"></div>
@@ -409,11 +420,17 @@ pre.prompt{white-space:pre-wrap;word-break:break-word;background:var(--soft);bor
    <input type="text" id="c-author">
    <label for="c-keyword">觀點關鍵詞（一個詞）</label>
    <input type="text" id="c-keyword" placeholder="例：勇氣">
+   <label for="c-quote">金句（選填）</label>
+   <p class="hint">書中讓你最有感的一句話——做成金句卡時會放在正中央。沒填的話，卡片會用觀點關鍵詞代替。</p>
+   <input type="text" id="c-quote" placeholder="例：不是我寫故事，而是故事找上了我">
    <label for="c-story">書中故事（一句話 ≤30 字，或一小段 ≤120 字）</label>
    <div class="field">
     <textarea id="c-story" placeholder="用自己的話說……"></textarea>
     <button class="mic" data-target="c-story" title="語音輸入" type="button">🎤</button>
    </div>
+   <label>打卡日期</label>
+   <p class="hint">預設是今天。漏打的日子可以補：7 天內、還沒打過的日期都可以選。</p>
+   <div class="chips-wrap" id="ciDates"></div>
    <div class="btnrow two">
     <button class="btn ghost" data-go="home">← 回首頁</button>
     <button class="btn primary" id="ciSubmit">完成打卡（+5 ✨）</button>
@@ -423,6 +440,27 @@ pre.prompt{white-space:pre-wrap;word-break:break-word;background:var(--soft);bor
  <div class="card">
   <h2>最近的打卡</h2>
   <div id="ciList"><p class="fine">還沒有打卡紀錄。</p></div>
+</section>
+
+<!-- 金句卡 -->
+<section class="screen" id="s-card">
+ <div class="card">
+  <h2>✨ 金句卡</h2>
+  <div class="note" id="cardNote">存成圖片，分享到 IG 或 FB——讓朋友看到你今天讀了什麼。模板會照打卡日的星期自動配色，也可以自己換。</div>
+  <div style="text-align:center;margin:8px 0"><canvas id="cardCanvas" width="1080" height="1080" style="max-width:100%;height:auto;border-radius:6px;border:1px solid var(--border)"></canvas></div>
+  <label>尺寸</label>
+  <div class="tabs">
+   <button class="btn soft" id="cardSq" type="button">方形 1:1（貼文）</button>
+   <button class="btn ghost" id="cardSt" type="button">直式 9:16（限時動態）</button>
+  </div>
+  <label>模板（對應星期一～日）</label>
+  <div class="chips-wrap" id="cardTpls"></div>
+  <div class="btnrow"><button class="btn primary big" id="cardDl" type="button">⬇️ 下載圖片（PNG）</button></div>
+  <div class="btnrow two">
+   <button class="btn ghost" data-go="checkin">← 回打卡</button>
+   <button class="btn ghost" data-go="home">回首頁</button>
+  </div>
+ </div>
 </section>
 
 <!-- 學習歷程 -->
@@ -454,8 +492,8 @@ pre.prompt{white-space:pre-wrap;word-break:break-word;background:var(--soft);bor
 <footer class="container" style="font-size:14px;text-align:center;padding:6px 12px 28px;color:#5a5a5a"><p style="margin:0">Copyright &copy; 2020-2026 Powered by Colearn30.com. All rights reserved &middot;</p></footer>
 <div id="toast"></div>
 <script>
-window.DAILY_STEP_CLOUD=null;
-window.DAILY_STEP_CFG={studentName:"訪客",temp:null,urls:{track:"/demo-offline",article:"/demo-article",tempUrl:"/demo-offline",list:"https://www.colearn30.com/"},csrf:"demo"};
+window.DAILY_STEP_CLOUD={"points":0,"badges":[],"checkins":[],"projects":[]};
+window.DAILY_STEP_CFG={studentName:"試用訪客",temp:null,urls:{track:"",article:"",tempUrl:"",list:"https://colearn30.com"},csrf:""};
 </script>
 <script>
 "use strict";
@@ -475,14 +513,14 @@ function freshState(){return {points:0,badges:[],checkins:[],projects:[],project
 function load(){try{const s=JSON.parse(localStorage.getItem(LS));if(s&&typeof s==="object")return Object.assign(freshState(),s);}catch(e){}return freshState();}
 let S=load();
 /* ===== 樂寫網站整合（外掛新增區，原型邏輯不變） ===== */
-const CFG=window.DAILY_STEP_CFG||{urls:{},csrf:"",studentName:""};CFG.demo=true;
+const CFG=window.DAILY_STEP_CFG||{urls:{},csrf:"",studentName:""};
 (function syncCloud(){try{
  const c=window.DAILY_STEP_CLOUD;
  if(c&&typeof c==="object"){S.points=c.points||0;S.badges=c.badges||[];S.checkins=c.checkins||[];S.projects=c.projects||[];}
  const t=CFG.temp;if(t&&typeof t==="object"&&t.project){S.project=t.project;}
  if(S.project&&S.project.submitted){S.project=null;try{localStorage.setItem(LS,JSON.stringify(S));}catch(e){}}
 }catch(e){}})();
-function postJSON(url,data){if(CFG.demo){return Promise.resolve(url.indexOf("article")>-1?{status:200,message:"demo",redirect:"https://www.colearn30.com/"}:null);}if(!url)return Promise.resolve(null);try{return fetch(url,{method:"POST",headers:{"Content-Type":"application/json","X-CSRF-TOKEN":CFG.csrf,"X-Requested-With":"XMLHttpRequest"},body:JSON.stringify(data)}).then(function(r){return r.json();}).catch(function(){return null;});}catch(e){return Promise.resolve(null);}}
+function postJSON(url,data){if(!url)return Promise.resolve(null);try{return fetch(url,{method:"POST",headers:{"Content-Type":"application/json","X-CSRF-TOKEN":CFG.csrf,"X-Requested-With":"XMLHttpRequest"},body:JSON.stringify(data)}).then(function(r){return r.json();}).catch(function(){return null;});}catch(e){return Promise.resolve(null);}}
 let saveTimer=null;
 function save(){try{localStorage.setItem(LS,JSON.stringify(S));}catch(e){}
  clearTimeout(saveTimer);saveTimer=setTimeout(function(){postJSON(CFG.urls.tempUrl,{state:{project:S.project}});},800);}
@@ -496,23 +534,26 @@ function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show")
 function updateChips(){const lv=levelOf(S.points);$("sandChip").textContent="✨ "+S.points+" 金沙";$("levelChip").textContent=lv.icon+" "+lv.name;}
 function addPoints(n,label){S.points+=n;save();updateChips();toast("+"+n+" ✨ 金沙｜"+label);track("point",n,(S.project&&S.project.book)||"",{label:label});}
 function award(key){if(!S.badges.includes(key)){S.badges.push(key);save();setTimeout(()=>toast("獲得徽章 "+BADGES[key].icon+" "+BADGES[key].name),1200);track("badge",0,"",{badge:key});}}
-function streak(){const days=new Set(S.checkins.map(c=>c.d));let n=0;const d=new Date();while(days.has(todayStr(d))){n++;d.setDate(d.getDate()-1);}return n;}
+function streak(){const days=new Set(S.checkins.map(c=>c.d));let n=0;const d=new Date();
+ if(!days.has(todayStr(d)))d.setDate(d.getDate()-1); // 今天還沒打就從昨天往回算，不提前歸零
+ while(days.has(todayStr(d))){n++;d.setDate(d.getDate()-1);}return n;}
+function totalDays(){return new Set(S.checkins.map(c=>c.d)).size;}
 function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
 
 /* ---------- 路由 ---------- */
-const SCREENS=["home","map","g1","g2","g3","g4","free","assembly","result","checkin","portfolio"];
+const SCREENS=["home","map","g1","g2","g3","g4","free","assembly","result","checkin","portfolio","card"];
 function go(id){location.hash=id;}
 function show(id){if(!SCREENS.includes(id))id="home";
  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
  $("s-"+id).classList.add("active");window.scrollTo(0,0);
  updateChips();
- ({home:renderHome,map:renderMap,g1:renderG1,g2:renderG2,g3:renderG3,g4:renderG4,free:renderFree,assembly:renderAssembly,result:renderResult,checkin:renderCheckin,portfolio:renderPortfolio}[id]||function(){})();
+ ({home:renderHome,map:renderMap,g1:renderG1,g2:renderG2,g3:renderG3,g4:renderG4,free:renderFree,assembly:renderAssembly,result:renderResult,checkin:renderCheckin,portfolio:renderPortfolio,card:renderCard}[id]||function(){})();
 }
 window.addEventListener("hashchange",()=>show((location.hash||"#home").slice(1)));
 document.querySelectorAll("[data-go]").forEach(el=>el.addEventListener("click",e=>{e.preventDefault();go(el.dataset.go);}));
 
 /* ---------- 首頁 ---------- */
-function renderHome(){$("homeSand").textContent=S.points;$("homeStreak").textContent=streak();$("homeArticles").textContent=S.projects.length;$("btnStart").textContent=S.project?"🏁 繼續闖關（寫一篇心得）":"🏁 開始闖關（寫一篇心得）";}
+function renderHome(){$("homeSand").textContent=S.points;$("homeStreak").textContent=streak();$("homeTotal").textContent=totalDays();$("homeArticles").textContent=S.projects.length;$("btnStart").textContent=S.project?"🏁 繼續闖關（寫一篇心得）":"🏁 開始闖關（寫一篇心得）";}
 $("btnStart").addEventListener("click",()=>{ensureProject();save();go("map");});
 $("btnCheckin").addEventListener("click",()=>go("checkin"));
 $("btnPortfolio").addEventListener("click",()=>go("portfolio"));
@@ -579,7 +620,7 @@ $("pass1").addEventListener("click",()=>{const p=ensureProject();
  if(!p.gates.g1){p.gates.g1=true;addPoints(5,"完成第一頁");award("kingkong");}
  save();go("map");});
 
-/* ---------- 第二頁 ---------- */
+/* ---------- 第二�� ---------- */
 function renderG2(){const p=ensureProject();fill("f-myview",p.myView);fill("f-mystory",p.myStory);
  $("kwEcho1").textContent=p.keyword?p.keyword:"這個觀點";
  $("g2note").textContent=p.keyword?("你選的關鍵詞是「"+p.keyword+"」。你同意這個觀點嗎？然後，講一個你自己的故事。"):"從你的關鍵詞出發：你同意書中的觀點嗎？然後，講一個你自己的故事。";}
@@ -722,38 +763,176 @@ $("dlThis").addEventListener("click",()=>{const p=S.project;if(!p)return;
 $("prnThis").addEventListener("click",()=>{const p=S.project;if(!p)return;printDoc("《"+p.book+"》閱讀心得",articleDoc(p));});
 
 /* ---------- 打卡 ---------- */
+let ciTarget=todayStr(),ciMakeupMode=false;
+function latestCheckin(){if(!S.checkins.length)return null;const t=todayStr();for(let i=S.checkins.length-1;i>=0;i--){if(S.checkins[i].d===t)return S.checkins[i];}return S.checkins[S.checkins.length-1];}
+function ciDatesRender(){
+ const w=$("ciDates");w.innerHTML="";
+ const wd=["日","一","二","三","四","五","六"];
+ for(let i=0;i<7;i++){
+  const d=new Date();d.setDate(d.getDate()-i);const ds=todayStr(d);
+  const has=S.checkins.some(c=>c.d===ds);
+  const b=document.createElement("button");b.type="button";b.className="angle datepick"+(ciTarget===ds?" on":"");
+  b.textContent=(i===0?"今天":(i===1?"昨天":"週"+wd[d.getDay()]+" "+ds.slice(5)));
+  if(has){b.disabled=true;b.style.opacity=.45;b.style.textDecoration="line-through";b.title="這天已經打過卡了";}
+  else b.addEventListener("click",()=>{ciTarget=ds;renderCheckin();});
+  w.appendChild(b);
+ }
+}
 function renderCheckin(){
  const doneToday=S.checkins.some(c=>c.d===todayStr());
+ if(S.checkins.some(c=>c.d===ciTarget))ciTarget=todayStr();
+ if(doneToday&&ciMakeupMode){for(let i=1;i<7;i++){const d=new Date();d.setDate(d.getDate()-i);const ds=todayStr(d);if(!S.checkins.some(c=>c.d===ds)){ciTarget=ds;break;}}}
  $("ciDoneBox").style.display=doneToday?"block":"none";
- $("ciForm").style.display=doneToday?"none":"block";
+ $("ciForm").style.display=(!doneToday||ciMakeupMode)?"block":"none";
  $("ciBookWarn").style.display="none";
+ ciDatesRender();
+ $("ciSubmit").textContent=ciTarget===todayStr()?"完成打卡（+5 ✨）":"補 "+ciTarget.slice(5)+" 打卡（+5 ✨）";
  const list=$("ciList");
  if(!S.checkins.length){list.innerHTML="<p class='fine'>還沒有打卡紀錄。</p>";return;}
- list.innerHTML=S.checkins.slice(-7).reverse().map(c=>'<div class="rec-item"><b>《'+esc(c.book)+"》</b>　"+esc(c.keyword)+'<br><span class="d">'+c.d+"・"+esc(c.author)+"・"+esc(c.story)+"</span></div>").join("");
+ list.innerHTML=S.checkins.slice(-7).reverse().map(c=>'<div class="rec-item"><button class="btn ghost ci-card-btn" data-d="'+c.d+'" type="button">✨ 金句卡</button><b>《'+esc(c.book)+'》</b>　'+esc(c.keyword)+(c.quote?'<br><span class="d">金句：'+esc(c.quote)+"</span>":"")+'<br><span class="d">'+c.d+"・"+esc(c.author)+"・"+esc(c.story)+"</span></div>").join("");
+ list.querySelectorAll(".ci-card-btn").forEach(b=>b.addEventListener("click",()=>{const c=S.checkins.find(x=>x.d===b.dataset.d);if(c)openCard(c);}));
 }
 $("ciSubmit").addEventListener("click",()=>{
- const book=$("c-book").value.trim(),author=$("c-author").value.trim(),kw=$("c-keyword").value.trim(),story=$("c-story").value.trim();
- if(!book||!author||!kw||!story){toast("四個欄位都要填喔");return;}
+ const book=$("c-book").value.trim(),author=$("c-author").value.trim(),kw=$("c-keyword").value.trim(),quote=$("c-quote").value.trim(),story=$("c-story").value.trim();
+ if(!book||!author||!kw||!story){toast("書名、作者、關鍵詞、故事都要填喔（金句選填）");return;}
  if(story.replace(/\s/g,"").length>120){toast("書中故事請控制在 120 字內");return;}
+ const d=ciTarget;
+ if(S.checkins.some(c=>c.d===d)){toast("這一天已經打過卡了");renderCheckin();return;}
  const same=S.checkins.filter(c=>c.book===book).length;
  if(same>=10){const w=$("ciBookWarn");w.textContent="《"+book+"》已經打卡 10 次了——換一本書，繼續你的閱讀冒險吧！";w.style.display="block";return;}
- S.checkins.push({d:todayStr(),book:book,author:author,keyword:kw,story:story});
- save();S.points+=5;updateChips();toast("+5 ✨ 金沙｜每日打卡");
- postJSON(CFG.urls.track,{type:"checkin",points:5,book:book,payload:{d:todayStr(),book:book,author:author,keyword:kw,story:story}}).then(function(r){
-  if(r&&r.status==201){S.checkins=S.checkins.filter(function(c){return !(c.d===todayStr()&&c.book===book);});S.points=Math.max(0,S.points-5);save();updateChips();renderCheckin();toast(r.message||"打卡未成功");}
+ S.checkins.push({d:d,book:book,author:author,keyword:kw,quote:quote,story:story});
+ S.points+=5;save();updateChips();toast(d===todayStr()?"+5 ✨ 金沙｜每日打卡":"+5 ✨ 金沙｜補打卡 "+d.slice(5));
+ postJSON(CFG.urls.track,{type:"checkin",points:5,book:book,payload:{d:d,book:book,author:author,keyword:kw,quote:quote,story:story}}).then(function(r){
+  if(r&&r.status==201){S.checkins=S.checkins.filter(function(c){return !(c.d===d&&c.book===book);});S.points=Math.max(0,S.points-5);save();updateChips();renderCheckin();toast(r.message||"打卡未成功");}
  });
- $("c-book").value=$("c-author").value=$("c-keyword").value=$("c-story").value="";
+ $("c-book").value=$("c-author").value=$("c-keyword").value=$("c-quote").value=$("c-story").value="";
+ ciMakeupMode=false;ciTarget=todayStr();
  renderCheckin();});
+$("ciToCard").addEventListener("click",()=>{const c=latestCheckin();if(c)openCard(c);});
+$("ciToGate").addEventListener("click",()=>{
+ if(S.project){go("map");return;}
+ const c=latestCheckin();
+ if(c){const p=ensureProject();p.book=c.book||"";p.author=c.author||"";p.keyword=c.keyword||"";p.story=c.story||"";save();toast("已幫你帶入打卡的四寶");}
+ go("g1");});
+$("ciMakeup").addEventListener("click",()=>{
+ let avail=null;
+ for(let i=1;i<7;i++){const d=new Date();d.setDate(d.getDate()-i);const ds=todayStr(d);if(!S.checkins.some(c=>c.d===ds)){avail=ds;break;}}
+ if(!avail){toast("最近 7 天都打完啦，明天見！");return;}
+ ciMakeupMode=true;ciTarget=avail;renderCheckin();
+ window.scrollTo(0,$("ciForm").getBoundingClientRect().top+window.scrollY-70);
+ toast("選好日期、填四寶，就算那一天的打卡");});
+
+/* ---------- 金句卡（Canvas 純前端產圖，七款週模板） ---------- */
+const CARD_TPLS=[
+ {name:"週一",bg:"#FDF7F4",ink:"#6B5560",accent:"#D97B8F",blobs:["#F6CBD8","#D8E8F5","#E5DFF2","#FBE3C8"],deco:"dots"},
+ {name:"週二",bg:"#F2FAF9",ink:"#3F5E5C",accent:"#2F8F8D",blobs:["#BFE6E3","#D9F0EA","#FDEED3","#DCEBF7"],deco:"ring"},
+ {name:"週三",bg:"#F8F5FC",ink:"#554A6B",accent:"#8B7BB8",blobs:["#E3D9F3","#F6CBD8","#D8E8F5","#FDEBD0"],deco:"star"},
+ {name:"週四",bg:"#FDF8F1",ink:"#6B543F",accent:"#C98A4B",blobs:["#F9D9B8","#FBE9C9","#E8F2DC","#F6D0C8"],deco:"lines"},
+ {name:"週五",bg:"#F3F8FC",ink:"#3F5468",accent:"#5B87B0",blobs:["#CBE0F2","#D6EBF5","#E5DFF2","#FDEBD0"],deco:"dots"},
+ {name:"週六",bg:"#FDFAF0",ink:"#6B5E3F",accent:"#B8912F",blobs:["#F9E9B8","#FBE3C8","#DFF0E0","#F6CBD8"],deco:"ring"},
+ {name:"週日",bg:"#F4FBF5",ink:"#40604C",accent:"#5A9E6F",blobs:["#CDE9D6","#DFF3E4","#D8E8F5","#FDEBD0"],deco:"star"}
+];
+let cardData={ci:null,tpl:0,size:"sq"};
+function openCard(ci){cardData.ci=ci;const wd=new Date(ci.d+"T12:00:00").getDay();cardData.tpl=(wd+6)%7;cardData.size="sq";go("card");}
+function rr(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();}
+function star4(g,cx,cy,r,color){g.fillStyle=color;g.globalAlpha=.85;g.beginPath();g.moveTo(cx,cy-r);g.quadraticCurveTo(cx,cy,cx+r,cy);g.quadraticCurveTo(cx,cy,cx,cy+r);g.quadraticCurveTo(cx,cy,cx-r,cy);g.quadraticCurveTo(cx,cy,cx,cy-r);g.fill();g.globalAlpha=1;}
+function wrapCJK(g,text,maxW){const lines=[];let line="";for(const ch of String(text)){if(ch==="\n"){lines.push(line);line="";continue;}const t=line+ch;if(line&&g.measureText(t).width>maxW){lines.push(line);line=ch;}else line=t;}if(line)lines.push(line);return lines;}
+function drawDeco(g,t,W,H,u){
+ const a=t.accent;
+ if(t.deco==="dots"){g.fillStyle=a;g.globalAlpha=.5;for(let r=0;r<3;r++)for(let c=0;c<5;c++){g.beginPath();g.arc(W*0.12+c*22*u,H*0.09+r*22*u,3.2*u,0,7);g.fill();}g.globalAlpha=1;}
+ else if(t.deco==="ring"){g.strokeStyle=a;g.globalAlpha=.5;g.lineWidth=2*u;for(let i=0;i<2;i++){g.beginPath();g.arc(W*0.9,H*0.12,(26+i*16)*u,0,7);g.stroke();}g.globalAlpha=1;}
+ else if(t.deco==="star"){star4(g,W*0.13,H*0.15,12*u,a);star4(g,W*0.87,H*0.86,16*u,a);star4(g,W*0.2,H*0.9,8*u,a);}
+ else if(t.deco==="lines"){g.strokeStyle=a;g.globalAlpha=.45;g.lineWidth=2*u;for(let i=0;i<4;i++){g.beginPath();g.moveTo(W*0.84+i*16*u,H*0.06);g.lineTo(W*0.78+i*16*u,H*0.12);g.stroke();}g.globalAlpha=1;}
+}
+function drawCard(){
+ const cv=$("cardCanvas"),ci=cardData.ci,t=CARD_TPLS[cardData.tpl];
+ const st=cardData.size==="st";
+ const W=1080,H=st?1920:1080;
+ cv.width=W;cv.height=H;
+ const g=cv.getContext("2d");
+ const font='"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif';
+ g.fillStyle=t.bg;g.fillRect(0,0,W,H);
+ const blobs=[[t.blobs[0],-0.10,-0.12,0.42],[t.blobs[1],0.82,-0.10,0.40],[t.blobs[2],0.86,0.80,0.38],[t.blobs[3],-0.08,0.86,0.40]];
+ if(st){blobs.push([t.blobs[1],-0.15,0.45,0.30]);blobs.push([t.blobs[2],0.95,0.38,0.26]);}
+ blobs.forEach(b=>{g.fillStyle=b[0];g.globalAlpha=.75;g.beginPath();g.arc(b[1]*W,b[2]*H,b[3]*W,0,7);g.fill();g.globalAlpha=1;});
+ const m=54;
+ g.strokeStyle=t.accent;g.globalAlpha=.55;g.lineWidth=2;rr(g,m,m,W-2*m,H-2*m,18);g.stroke();g.globalAlpha=1;
+ drawDeco(g,t,W,H,1);
+ const cx=W/2;
+ g.textAlign="center";g.textBaseline="middle";
+ const bookY=st?300:140,bookH=st?76:64;
+ const bookTxt="《"+(ci.book||"未命名")+"》";
+ g.font="600 "+(st?40:34)+"px "+font;
+ const bw=g.measureText(bookTxt).width+72;
+ g.fillStyle=t.accent;g.globalAlpha=.16;rr(g,cx-bw/2,bookY,bw,bookH,bookH/2);g.fill();g.globalAlpha=1;
+ g.fillStyle=t.accent;g.fillText(bookTxt,cx,bookY+bookH/2+2);
+ const authorY=st?430:250;
+ g.font="500 "+(st?38:32)+"px "+font;g.fillStyle=t.ink;
+ g.fillText("作者　"+(ci.author||"—"),cx,authorY);
+ const divY=st?500:300;
+ g.strokeStyle=t.accent;g.globalAlpha=.7;g.lineWidth=1.5;
+ g.beginPath();g.moveTo(cx-190,divY);g.lineTo(cx-30,divY);g.moveTo(cx+30,divY);g.lineTo(cx+190,divY);g.stroke();g.globalAlpha=1;
+ star4(g,cx,divY,10,t.accent);
+ const quote=(ci.quote&&ci.quote.trim())?ci.quote.trim():(ci.keyword||"今日閱讀");
+ const qTop=st?640:390,pillsY=st?1560:850;
+ let fs=st?92:68;const maxLines=st?6:4;
+ let lines;
+ while(true){g.font="700 "+fs+"px "+font;lines=wrapCJK(g,quote,st?780:820);if(lines.length<=maxLines||fs<=34)break;fs-=6;}
+ const lh=fs*1.5,blockH=lines.length*lh;
+ const qy=qTop+Math.max(0,(pillsY-qTop-60-blockH)/2);
+ g.fillStyle=t.accent;g.font="700 "+(st?150:120)+"px Georgia,serif";
+ g.fillText("“",cx-(st?360:330),qy-30);
+ g.fillText("”",cx+(st?360:330),qy+blockH+10);
+ g.fillStyle=t.ink;g.font="700 "+fs+"px "+font;g.textBaseline="top";
+ lines.forEach((ln,i)=>g.fillText(ln,cx,qy+i*lh));
+ g.textBaseline="middle";
+ const ph=st?64:56;
+ const items=["累計第 "+totalDays()+" 天","連續 "+streak()+" 天"];
+ g.font="600 "+(st?32:28)+"px "+font;
+ const ws=items.map(s=>g.measureText(s).width+56);
+ let px=cx-(ws[0]+ws[1]+24)/2;
+ items.forEach((s,i)=>{g.fillStyle=t.accent;g.globalAlpha=.16;rr(g,px,pillsY,ws[i],ph,ph/2);g.fill();g.globalAlpha=1;g.fillStyle=t.accent;g.fillText(s,px+ws[i]/2,pillsY+ph/2+2);px+=ws[i]+24;});
+ g.font="500 "+(st?30:26)+"px "+font;g.fillStyle=t.ink;g.globalAlpha=.7;
+ g.fillText(ci.d+" 的閱讀打卡",cx,pillsY+ph+(st?54:44));g.globalAlpha=1;
+ g.font="600 "+(st?32:28)+"px "+font;g.fillStyle=t.ink;g.globalAlpha=.8;
+ g.fillText("每日一小步・樂寫學習網",cx,H-(st?150:104));
+ g.font="500 "+(st?26:22)+"px "+font;g.globalAlpha=.55;
+ g.fillText("colearn30.com",cx,H-(st?108:70));g.globalAlpha=1;
+}
+function renderCard(){
+ const ci=cardData.ci;if(!ci){go("checkin");return;}
+ drawCard();
+ $("cardSq").className="btn "+(cardData.size==="sq"?"soft":"ghost");
+ $("cardSt").className="btn "+(cardData.size==="st"?"soft":"ghost");
+ const w=$("cardTpls");w.innerHTML="";
+ CARD_TPLS.forEach((t,i)=>{
+  const b=document.createElement("button");b.type="button";b.className="tpldot"+(cardData.tpl===i?" on":"");
+  b.style.background="linear-gradient(135deg,"+t.blobs[0]+","+t.blobs[1]+","+t.accent+")";
+  b.title=t.name;b.setAttribute("aria-label",t.name);
+  b.addEventListener("click",()=>{cardData.tpl=i;renderCard();});
+  w.appendChild(b);
+ });
+}
+$("cardSq").addEventListener("click",()=>{cardData.size="sq";renderCard();});
+$("cardSt").addEventListener("click",()=>{cardData.size="st";renderCard();});
+$("cardDl").addEventListener("click",()=>{
+ const ci=cardData.ci;if(!ci)return;
+ const a=document.createElement("a");
+ a.download="金句卡_"+(ci.book||"今日")+"_"+ci.d+(cardData.size==="st"?"_限動":"")+".png";
+ a.href=$("cardCanvas").toDataURL("image/png");
+ document.body.appendChild(a);a.click();setTimeout(()=>a.remove(),300);
+ toast("已下載圖片，去 IG／FB 分享吧");});
 
 /* ---------- 學習歷程 ---------- */
 function renderPortfolio(){
  $("pfSand").textContent=S.points;$("pfCheckins").textContent=S.checkins.length;$("pfArticles").textContent=S.projects.length;
  const items=[];
  S.projects.forEach((a,idx)=>items.push({d:a.d,html:'<div class="rec-item">📝 <b>《'+esc(a.book)+"》閱讀心得</b><button class=\"btn ghost reviseBtn\" data-idx=\""+idx+"\" type=\"button\" style=\"width:auto;min-height:34px;padding:2px 12px;font-size:14px;float:right\">✏️ 再修改</button><br><span class='d'>"+a.d+"・關鍵詞："+esc(a.keyword||"—")+"</span></div>"}));
- S.checkins.forEach(c=>items.push({d:c.d,html:'<div class="rec-item">✅ 打卡《'+esc(c.book)+"》　"+esc(c.keyword)+'<br><span class="d">'+c.d+"</span></div>"}));
+ S.checkins.forEach(c=>items.push({d:c.d,html:'<div class="rec-item"><button class="btn ghost ci-card-btn" data-d="'+c.d+'" type="button">✨ 金句卡</button>✅ 打卡《'+esc(c.book)+'》　'+esc(c.keyword)+'<br><span class="d">'+c.d+"</span></div>"}));
  items.sort((a,b)=>a.d<b.d?1:-1);
  $("pfList").innerHTML=items.length?items.map(i=>i.html).join(""):"<p class='fine'>還沒有紀錄，去寫第一篇吧！</p>";
  document.querySelectorAll(".reviseBtn").forEach(b=>b.addEventListener("click",()=>revise(+b.dataset.idx)));
+ document.querySelectorAll("#pfList .ci-card-btn").forEach(b=>b.addEventListener("click",()=>{const c=S.checkins.find(x=>x.d===b.dataset.d);if(c)openCard(c);}));
 }
 function portfolioMd(days){let cut=null;
  if(days){const d=new Date();d.setDate(d.getDate()-days);cut=todayStr(d);}
@@ -804,6 +983,7 @@ function loadDemo(silent){
 $("btnSubmitArticle").addEventListener("click",()=>{const p=S.project;
  if(!p||!(p.final||p.draft)){toast("還沒有完稿可以繳交");return;}
  if(p.submitted){toast("這篇已經繳交過囉");renderResult();return;}
+ if(!CFG.urls.article){p.submitted=true;save();renderResult();toast("試用版：已完成示範繳交（正式站才會真的送出）");return;}
  const btn=$("btnSubmitArticle");btn.disabled=true;btn.textContent="繳交中……";$("submitErr").style.display="none";
  if(!p.final)p.final=p.draft;
  const lines=[];
