@@ -139,6 +139,19 @@ pre.prompt{white-space:pre-wrap;word-break:break-word;background:var(--soft);bor
 .howto b{display:block;font-size:16px;margin-bottom:4px}
 .howto p{margin:0;font-size:14px;color:var(--text2)}
 @media(max-width:640px){.howto{grid-template-columns:1fr 1fr}}
+.mtype{display:flex;gap:8px;margin:2px 0 14px}
+.mtype button{flex:1;padding:8px 6px;border-radius:10px;border:1.5px solid var(--border);background:var(--canvas);font-size:14px;line-height:1.45;cursor:pointer;color:var(--text2);font-family:inherit}
+.mtype button small{font-size:12px;color:var(--text2);font-weight:400}
+.mtype button.on{border-color:var(--blue);background:var(--blue-soft);color:var(--text);font-weight:700}
+.mtype button.on small{color:var(--blue)}
+input[type=url]{width:100%;padding:12px;border:1px solid var(--border);border-radius:4px;background:var(--canvas);color:var(--text);font:inherit;font-size:16px}
+.icorow{display:flex;gap:10px;align-items:flex-start;margin:7px 0;font-size:15px;line-height:1.6}
+.icorow .ic{flex:0 0 24px;text-align:center}
+.whygrid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-top:8px}
+.whygrid>div{background:var(--canvas);border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center;font-size:13px;line-height:1.55}
+.whygrid b{display:block;font-size:14px;margin:4px 0 2px}
+.whygrid .wi{font-size:24px}
+@media(max-width:640px){.whygrid{grid-template-columns:1fr 1fr}}
 .fold{margin-top:14px;border-top:1px dashed var(--border);padding-top:12px}
 .fold summary{cursor:pointer;font-weight:600;color:var(--blue);font-size:16px}
 </style>
@@ -176,7 +189,26 @@ pre.prompt{white-space:pre-wrap;word-break:break-word;background:var(--soft);bor
  </div>
  <div class="card" style="padding:14px 20px">
   <details class="fold" style="margin-top:0;border-top:none;padding-top:0"><summary>📖 第一次來？點我看詳細說明（兩種玩法差在哪）</summary>
-   <div class="note" style="margin-top:10px">✅ <b>每日打卡（3 分鐘小任務）</b><br>翻開今天讀的書，留下書名、作者、一個觀點關鍵詞，再寫一個書中故事或一句金句，就算完成。一天一次，只存在自己的學習歷程；漏打的日子 7 天內可以補。打完卡還能把金句做成卡片，分享到 IG／FB。<br>🏁 <b>闖關（寫一篇完整心得）</b><br>當天想法比較多？走完四頁（四寶 → 我的觀點與故事 → 別人的故事 → 讀後行動）組成一篇心得，繳交給老師批改（收在「學習成果 → 文章管理」）。打卡寫到一半突然有感覺，也可以按「順手去闖關」，系統會把四寶直接帶過去。<br>🌱 <b>為什麼要每天打卡？</b><br>・用原子習慣的方式，把閱讀寫作的門檻降到最低，每天立即得到成就感<br>・每次打卡都是一則帶日期的小筆記——作文要引用論據，隨時從這裡調<br>・一天一則，一年就是 365 則：看得見的累積痕跡，也是高中學習歷程「持續閱讀」的證明<br>・分享金句卡，再得到一次社群的成就感，找到一起讀書的同路人</div>
+   <div class="note" style="margin-top:10px;padding:14px 14px 8px">
+    <p style="margin:0 0 4px"><b>✅ 每日打卡（3 分鐘小任務）</b></p>
+    <div class="icorow"><span class="ic">📖</span><span>翻開今天讀的書——或打開今天看的影片、聽的 Podcast</span></div>
+    <div class="icorow"><span class="ic">🔍</span><span>寫下名稱、作者／講者、一個觀點關鍵詞</span></div>
+    <div class="icorow"><span class="ic">💬</span><span>再寫一個故事，或一句金句，就算完成</span></div>
+    <div class="icorow"><span class="ic">⏰</span><span>一天一次；漏打的日子 7 天內可以補</span></div>
+    <div class="icorow"><span class="ic">🔗</span><span>打完卡還能把金句做成卡片，分享到 IG／FB</span></div>
+    <p style="margin:14px 0 4px"><b>🏁 闖關（寫一篇完整心得）</b></p>
+    <div class="icorow"><span class="ic">❶</span><span>走完四頁：四寶 → 我的觀點與故事 → 別人的故事 → 讀後行動</span></div>
+    <div class="icorow"><span class="ic">❷</span><span>組成一篇心得，繳交給老師批改（收在「學習成果 → 文章管理」）</span></div>
+    <div class="icorow"><span class="ic">❸</span><span>打卡寫到一半突然有感覺？按「順手去闖關」，四寶直接帶過去</span></div>
+    <p style="margin:14px 0 2px"><b>🌱 為什麼要每天打卡？</b></p>
+    <div class="whygrid">
+     <div><span class="wi">🏆</span><b>養習慣</b>原子習慣降門檻，每天都有成就感</div>
+     <div><span class="wi">❤️</span><b>小筆記×大思考</b>帶日期的小筆記，作文引用論據隨時調</div>
+     <div><span class="wi">📅</span><b>一年 365 則</b>看得見的累積，也是學習歷程「持續閱讀」的證明</div>
+     <div><span class="wi">👥</span><b>社群連結</b>分享金句卡，找到一起讀書的同路人</div>
+    </div>
+    <p class="fine" style="margin:12px 0 2px">💡 文本閱讀（書・電子書）打卡 +6 ✨，數位閱聽（影片・Podcast）+3 ✨——閱讀需要克服摩擦力，多給自己一點鼓勵！</p>
+   </div>
   </details>
  </div>
  <div class="card cta">
@@ -186,6 +218,7 @@ pre.prompt{white-space:pre-wrap;word-break:break-word;background:var(--soft);bor
    <button class="btn primary2" id="btnStart">🏁 闖關寫一篇心得</button>
   </div>
   <p class="cta-stats">✨ <b id="homeSand">0</b> 金沙　🔥 連續 <b id="homeStreak">0</b> 天　📚 累計 <b id="homeTotal">0</b> 天　📝 <b id="homeArticles">0</b> 篇文章</p>
+  <p class="cta-stats" style="margin-top:2px;font-size:14px">📖 文本 <b id="homeText">0</b> 次・🎧 數位 <b id="homeAv">0</b> 次　（文本閱讀加碼 +6 ✨）</p>
   <div class="cta-links"><button class="btn ghost" id="btnDemo">📖 看看《小王子》範例</button><button class="btn ghost" id="btnPortfolio">🗂 我的學習歷程</button></div>
  </div>
  <div class="card">
@@ -218,15 +251,24 @@ pre.prompt{white-space:pre-wrap;word-break:break-word;background:var(--soft);bor
  <div class="card">
   <h2>第一頁｜閱讀四寶</h2>
   <div class="note">不用讀完整本書。挑一個你有感覺的章節，把四樣寶物存進你的存摺。</div>
-  <label for="f-book">書名</label>
+  <label>這次讀的是哪一種？</label>
+  <div class="mtype" id="g1Mtype">
+   <button type="button" data-mt="text" class="on">📖 文本閱讀<br><small>紙本書・電子書</small></button>
+   <button type="button" data-mt="av">🎧 數位閱聽<br><small>影片・Podcast</small></button>
+  </div>
+  <label for="f-book" id="lb-f-book">書名</label>
   <input type="text" id="f-book" data-bind="book" placeholder="例：小王子">
-  <label for="f-author">作者</label>
+  <label for="f-author" id="lb-f-author">作者</label>
   <input type="text" id="f-author" data-bind="author" placeholder="例：安東尼・聖修伯里">
-  <label for="f-keyword">書中觀點（一個關鍵詞）</label>
+  <div id="f-linkWrap" style="display:none">
+   <label for="f-link">作品連結（選填）</label>
+   <input type="url" id="f-link" data-bind="link" placeholder="貼上影片或 Podcast 的網址，https://…">
+  </div>
+  <label for="f-keyword" id="lb-f-keyword">書中觀點（一個關鍵詞）</label>
   <p class="hint">翻到你喜歡的章節，用一個詞說出它的觀點。例：馴養、勇氣、選擇。</p>
   <input type="text" id="f-keyword" data-bind="keyword" placeholder="例：馴養">
-  <label for="f-story">書中故事</label>
-  <p class="hint">支撐這個觀點的故事，用自己的話說：一句話 ≤30 字，或一小段 ≤120 字。超過就很像灌水囉。</p>
+  <label for="f-story" id="lb-f-story">書中故事</label>
+  <p class="hint">支撐這個觀點的故事，用自己的話說：一句話 ≤30 字，或一小段 ≤120 字。</p>
   <div class="field">
    <textarea id="f-story" data-bind="story" data-warn="120" placeholder="例：狐狸教小王子「馴養」：建立關係，讓彼此成為唯一。"></textarea>
    <button class="mic" data-target="f-story" title="語音輸入" type="button">🎤</button>
@@ -247,15 +289,15 @@ pre.prompt{white-space:pre-wrap;word-break:break-word;background:var(--soft);bor
 <section class="screen" id="s-g2">
  <div class="card">
   <h2>第二頁｜我的觀點與故事</h2>
-  <div class="note" id="g2note">從你的關鍵詞出發：你同意書中的觀點嗎？然後，講一個你自己的故事。</div>
+  <div class="note" id="g2note">從你的關鍵詞出發：如何思考書中的觀點呢？然後，講一個你自己的故事。</div>
   <label for="f-myview">我的觀點</label>
-  <p class="hint">你同意「<span id="kwEcho1">這個觀點</span>」嗎？為什麼？一句話說清楚。</p>
+  <p class="hint">如何思考「<span id="kwEcho1">這個觀點</span>」呢？為什麼？一句話說清楚。</p>
   <div class="field">
    <textarea id="f-myview" data-bind="myView" placeholder="例：我同意。關係的價值不在對方本來多特別，而在你願意為他花多少時間。"></textarea>
    <button class="mic" data-target="f-myview" title="語音輸入" type="button">🎤</button>
   </div>
   <label for="f-mystory">我的故事</label>
-  <p class="hint">連結你自己的生命經驗，至少 50 字。先寫再說，流水帳也沒關係。</p>
+  <p class="hint">連結你自己的生命經驗，至少 50 字。先把想到的寫下來，就完成階段性任務囉。</p>
   <div class="field">
    <textarea id="f-mystory" data-bind="myStory" style="min-height:140px" placeholder="例：我原本和隔壁班的同學不熟，直到我們一起準備科展……"></textarea>
    <button class="mic" data-target="f-mystory" title="語音輸入" type="button">🎤</button>
@@ -298,13 +340,13 @@ pre.prompt{white-space:pre-wrap;word-break:break-word;background:var(--soft);bor
   <h2>第四頁｜讀後行動</h2>
   <div class="note">文字不能只停在紙上。讀了這本書，你可以做的一個行動是什麼？寫下你夢想的最高規格版本——沒有 100 分，也有 80 分。</div>
   <label for="f-action">我的行動</label>
-  <p class="hint">具體、這週就做得到的事。例：每天放下手機十分鐘，認真聽家人說話。</p>
+  <p class="hint">具體行動方法，現在或未來可以做的事。例：每天放下手機十分鐘，認真聽家人說話。</p>
   <div class="field">
    <textarea id="f-action" data-bind="action" placeholder="這個星期，我要……"></textarea>
    <button class="mic" data-target="f-action" title="語音輸入" type="button">🎤</button>
   </div>
   <div class="btnrow two">
-   <button class="btn ghost" data-go="map">← 回地��</button>
+   <button class="btn ghost" data-go="map">← 回地圖</button>
    <button class="btn primary" id="pass4">完成第四頁（+5 ✨）</button>
   </div>
  </div>
@@ -315,8 +357,17 @@ pre.prompt{white-space:pre-wrap;word-break:break-word;background:var(--soft);bor
  <div class="card">
   <h2>自由書寫</h2>
   <div class="note">不想用框架也沒問題。把你想寫的直接寫下來，寫完一樣可以組成文章。</div>
-  <label for="f-freebook">書名</label>
+  <label>這次的是哪一種？</label>
+  <div class="mtype" id="freeMtype">
+   <button type="button" data-mt="text" class="on">📖 文本閱讀<br><small>紙本書・電子書</small></button>
+   <button type="button" data-mt="av">🎧 數位閱聽<br><small>影片・Podcast</small></button>
+  </div>
+  <label for="f-freebook" id="lb-f-freebook">書名</label>
   <input type="text" id="f-freebook" placeholder="你讀的是哪本書？">
+  <div id="f-freelinkWrap" style="display:none">
+   <label for="f-freelink">作品連結（選填）</label>
+   <input type="url" id="f-freelink" placeholder="貼上影片或 Podcast 的網址，https://…">
+  </div>
   <label for="f-free">我的心得</label>
   <div class="field">
    <textarea id="f-free" data-bind="freeText" style="min-height:240px" placeholder="想到什麼就寫什麼……"></textarea>
@@ -344,7 +395,7 @@ pre.prompt{white-space:pre-wrap;word-break:break-word;background:var(--soft);bor
    <div class="diffview" id="draftView"></div>
    <div class="btnrow two">
     <button class="btn soft" id="btnSelf">✍️ 我自己整理</button>
-    <button class="btn primary" id="btnAI">🤖 AI ��作（推薦）</button>
+    <button class="btn primary" id="btnAI">🤖 AI 協作（推薦）</button>
    </div>
    <div class="btnrow"><button class="btn ghost" data-go="map">← 回關卡地圖改材料</button></div>
   </div>
@@ -460,7 +511,7 @@ pre.prompt{white-space:pre-wrap;word-break:break-word;background:var(--soft);bor
 <section class="screen" id="s-checkin">
  <div class="card">
   <h2>每日打卡</h2>
-  <div class="note">每天 3 分鐘，把四寶存進你的閱讀存摺：書名、作者、一個觀點關鍵詞、一個書中故事。</div>
+  <div class="note">每天 3 分鐘，讀書或閱聽都可以打卡，把四寶存進你的存摺：名稱、作者／講者、一個觀點關鍵詞、一個故事。</div>
   <div id="ciDoneBox" style="display:none">
    <div class="note good">今天已經完成打卡了，明天再來！</div>
    <div class="btnrow"><button class="btn primary" id="ciToCard">✨ 把今天的金句做成卡片（分享 IG／FB）</button></div>
@@ -472,20 +523,29 @@ pre.prompt{white-space:pre-wrap;word-break:break-word;background:var(--soft);bor
   </div>
   <div id="ciForm">
    <div class="note warn" id="ciBookWarn" style="display:none"></div>
-   <label for="c-book">書名</label>
+   <label>今天的是哪一種？</label>
+   <div class="mtype" id="ciMtype">
+    <button type="button" data-mt="text" class="on">📖 文本閱讀<br><small>紙本書・電子書（+6 ✨）</small></button>
+    <button type="button" data-mt="av">🎧 數位閱聽<br><small>影片・Podcast（+3 ✨）</small></button>
+   </div>
+   <label for="c-book" id="lb-c-book">書名</label>
    <input type="text" id="c-book" placeholder="今天讀的是哪本書？">
-   <label for="c-author">作者</label>
+   <label for="c-author" id="lb-c-author">作者</label>
    <input type="text" id="c-author">
+   <div id="c-linkWrap" style="display:none">
+    <label for="c-link">作品連結（選填）</label>
+    <input type="url" id="c-link" placeholder="貼上影片或 Podcast 的網址，https://…">
+   </div>
    <label for="c-keyword">觀點關鍵詞（一個詞）</label>
    <input type="text" id="c-keyword" placeholder="例：勇氣">
-   <label for="c-quote">金句（選填）</label>
-   <p class="hint">書中讓你最有感的一句話——做成金句卡時會放在正中央。沒填的話，卡片會用觀點關鍵詞代替。</p>
-   <input type="text" id="c-quote" placeholder="例：不是我寫故事，而是故事找上了我">
-   <label for="c-story">書中故事（一句話 ≤30 字，或一小段 ≤120 字）</label>
+   <label for="c-story" id="lb-c-story">書中故事（一句話 ≤30 字，或一小段 ≤120 字）</label>
    <div class="field">
     <textarea id="c-story" placeholder="用自己的話說……"></textarea>
     <button class="mic" data-target="c-story" title="語音輸入" type="button">🎤</button>
    </div>
+   <label for="c-quote">金句（選填）</label>
+   <p class="hint">可以複製上一欄故事中的句子，或你特別有感的金句——做成卡片時會放在正中央。沒填的話，卡片會用故事或關鍵詞代替。</p>
+   <input type="text" id="c-quote" placeholder="例：不是我寫故事，而是故事找上了我">
    <label>打卡日期</label>
    <p class="hint">預設是今天。漏打的日子可以補：7 天內、還沒打過的日期都可以選。</p>
    <div class="chips-wrap" id="ciDates"></div>
@@ -586,9 +646,11 @@ let saveTimer=null;
 function save(){try{localStorage.setItem(LS,JSON.stringify(S));}catch(e){}
  clearTimeout(saveTimer);saveTimer=setTimeout(function(){postJSON(CFG.urls.tempUrl,{state:{project:S.project}});},800);}
 function track(type,points,book,payload){postJSON(CFG.urls.track,{type:type,points:points||0,book:book||"",payload:payload||{}});}
+function isAv(p){return !!(p&&p.mtype==="av");}
+function donePoints(p){return isAv(p)?12:20;}
 /* ===== 整合區結束 ===== */
 function todayStr(d){d=d||new Date();const p=n=>String(n).padStart(2,"0");return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate());}
-function ensureProject(){if(!S.project){S.project={book:"",author:"",keyword:"",story:"",photo:"",myView:"",myStory:"",extAngle:"",extText:"",learned:"",action:"",freeText:"",freeBook:"",draft:"",aiText:"",reflection:"",final:"",gates:{},createdAt:todayStr()};}return S.project;}
+function ensureProject(){if(!S.project){S.project={mtype:"text",link:"",book:"",author:"",keyword:"",story:"",photo:"",myView:"",myStory:"",extAngle:"",extText:"",learned:"",action:"",freeText:"",freeBook:"",draft:"",aiText:"",reflection:"",final:"",gates:{},createdAt:todayStr()};}return S.project;}
 function levelOf(p){if(p>=150)return{icon:"⛰️",name:"金山"};if(p>=50)return{icon:"⛏️",name:"金礦"};return{icon:"✨",name:"金沙"};}
 let toastTimer=null;
 function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),2200);}
@@ -614,7 +676,7 @@ window.addEventListener("hashchange",()=>show((location.hash||"#home").slice(1))
 document.querySelectorAll("[data-go]").forEach(el=>el.addEventListener("click",e=>{e.preventDefault();go(el.dataset.go);}));
 
 /* ---------- 首頁 ---------- */
-function renderHome(){$("homeSand").textContent=S.points;$("homeStreak").textContent=streak();$("homeTotal").textContent=totalDays();$("homeArticles").textContent=S.projects.length;$("btnStart").textContent=S.project?"🏁 繼續闖關（寫一篇心得）":"🏁 闖關寫一篇心得";}
+function renderHome(){$("homeSand").textContent=S.points;$("homeStreak").textContent=streak();$("homeTotal").textContent=totalDays();$("homeArticles").textContent=S.projects.length;$("btnStart").textContent=S.project?"🏁 繼續闖關（寫一篇心得）":"🏁 闖關寫一篇心得";$("homeText").textContent=S.checkins.filter(c=>c.mtype!=="av").length+S.projects.filter(a=>a.mtype!=="av").length;$("homeAv").textContent=S.checkins.filter(c=>c.mtype==="av").length+S.projects.filter(a=>a.mtype==="av").length;}
 $("btnStart").addEventListener("click",()=>{ensureProject();save();go("map");});
 $("btnCheckin").addEventListener("click",()=>go("checkin"));
 $("btnPortfolio").addEventListener("click",()=>go("portfolio"));
@@ -649,6 +711,11 @@ document.querySelectorAll("[data-bind]").forEach(el=>{
  });
 });
 function fill(id,val){const el=$(id);el.value=val||"";el.dispatchEvent(new Event("input"));}
+let ciMtype="text";
+function bindMtype(wrapId,onPick){document.querySelectorAll("#"+wrapId+" button").forEach(b=>b.addEventListener("click",()=>onPick(b.dataset.mt)));}
+bindMtype("ciMtype",mt=>{ciMtype=mt;renderCheckin();});
+bindMtype("g1Mtype",mt=>{const p=ensureProject();p.mtype=mt;save();renderG1();});
+bindMtype("freeMtype",mt=>{const p=ensureProject();p.mtype=mt;save();renderFree();});
 
 /* ---------- 語音輸入 ---------- */
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
@@ -665,8 +732,17 @@ document.querySelectorAll("button.mic").forEach(btn=>{
 });
 
 /* ---------- 第一頁 ---------- */
-function renderG1(){const p=ensureProject();
- fill("f-book",p.book);fill("f-author",p.author);fill("f-keyword",p.keyword);fill("f-story",p.story);renderPhoto();}
+function renderG1(){const p=ensureProject();if(!p.mtype)p.mtype="text";
+ document.querySelectorAll("#g1Mtype button").forEach(b=>b.classList.toggle("on",b.dataset.mt===(p.mtype||"text")));
+ const av=p.mtype==="av";
+ $("lb-f-book").textContent=av?"片名／節目名":"書名";
+ $("f-book").placeholder=av?"例：一集科普影片":"例：小王子";
+ $("lb-f-author").textContent=av?"講者／頻道":"作者";
+ $("f-author").placeholder=av?"例：某某頻道":"例：安東尼・聖修伯里";
+ $("lb-f-keyword").textContent=av?"內容觀點（一個關鍵詞）":"書中觀點（一個關鍵詞）";
+ $("lb-f-story").textContent=av?"內容的故事":"書中故事";
+ $("f-linkWrap").style.display=av?"block":"none";
+ fill("f-book",p.book);fill("f-author",p.author);fill("f-keyword",p.keyword);fill("f-story",p.story);fill("f-link",p.link);renderPhoto();}
 function renderPhoto(){const p=S.project;$("photoWrap").innerHTML=p&&p.photo?"<img src='"+p.photo+"' alt='手寫稿照片'>":"";}
 $("photoInput").addEventListener("change",()=>{const f=$("photoInput").files[0];if(!f)return;
  const rd=new FileReader();rd.onload=()=>{const img=new Image();img.onload=()=>{
@@ -681,10 +757,10 @@ $("pass1").addEventListener("click",()=>{const p=ensureProject();
  if(!p.gates.g1){p.gates.g1=true;addPoints(5,"完成第一頁");award("kingkong");}
  save();go("map");});
 
-/* ---------- 第二�� ---------- */
+/* ---------- 第二頁 ---------- */
 function renderG2(){const p=ensureProject();fill("f-myview",p.myView);fill("f-mystory",p.myStory);
  $("kwEcho1").textContent=p.keyword?p.keyword:"這個觀點";
- $("g2note").textContent=p.keyword?("你選的關鍵詞是「"+p.keyword+"」。你同意這個觀點嗎？然後，講一個你自己的故事。"):"從你的關鍵詞出發：你同意書中的觀點嗎？然後，講一個你自己的故事。";}
+ $("g2note").textContent=p.keyword?("你選的關鍵詞是「"+p.keyword+"」。如何思考這個觀點呢？然後，講一個你自己的故事。"):"從你的關鍵詞出發：如何思考書中的觀點呢？然後，講一個你自己的故事。";}
 $("pass2").addEventListener("click",()=>{const p=ensureProject();
  if(!p.myView.trim()){toast("先寫下你的觀點");return;}
  if(p.myStory.replace(/\s/g,"").length<50){toast("我的故事至少 50 字，先寫再說，流水帳也沒關係");return;}
@@ -713,8 +789,15 @@ $("pass4").addEventListener("click",()=>{const p=ensureProject();
  save();go("map");});
 
 /* ---------- 自由書寫 ---------- */
-function renderFree(){const p=ensureProject();fill("f-free",p.freeText);fill("f-freebook",p.freeBook);}
+function renderFree(){const p=ensureProject();if(!p.mtype)p.mtype="text";
+ document.querySelectorAll("#freeMtype button").forEach(b=>b.classList.toggle("on",b.dataset.mt===(p.mtype||"text")));
+ const av=p.mtype==="av";
+ $("lb-f-freebook").textContent=av?"片名／節目名":"書名";
+ $("f-freebook").placeholder=av?"你看／聽的是什麼？":"你讀的是哪本書？";
+ $("f-freelinkWrap").style.display=av?"block":"none";
+ fill("f-free",p.freeText);fill("f-freebook",p.freeBook);fill("f-freelink",p.link);}
 $("f-freebook").addEventListener("input",()=>{ensureProject().freeBook=$("f-freebook").value;save();});
+$("f-freelink").addEventListener("input",()=>{ensureProject().link=$("f-freelink").value;save();});
 $("passFree").addEventListener("click",()=>{const p=ensureProject();
  if(!p.freeBook.trim()){toast("先填書名");return;}
  if(p.freeText.replace(/\s/g,"").length<30){toast("再多寫一點（至少 30 字）");return;}
@@ -736,7 +819,7 @@ function buildDraft(p){
 }
 function buildPrompt(p){
  const ext=p.extText.trim()?("【別人的故事（"+p.extAngle+"）】"+p.extText):("【我學到了什麼】"+p.learned);
- return "你是寫作教���。以下是一位學生的閱讀心得材料，請只調整「結構」，不要修辭。\n規則：\n1. 可以調整段落順序，最多補兩句過場句，讓段落接得起來。\n2. 不可以改寫他的句子，不可以加入他沒提到的觀點、例子或書中情節。\n3. 保留他的第一人稱語氣與用字。\n4. 調整幅度上限：全文改動不超過五分之一。\n輸出：（1）調整後的完整文章；（2）條列說明你改了哪些地方、為什麼。\n\n學生的材料：\n【書名】"+p.book+"\n【作者】"+p.author+"\n【觀點關鍵詞】"+p.keyword+"\n【書中故事】"+p.story+"\n【我的觀點】"+p.myView+"\n【我的故事】"+p.myStory+"\n"+ext+"\n【讀後行動】"+p.action;
+ return "你是寫作教練。以下是一位學生的閱讀心得材料，請只調整「結構」，不要修辭。\n規則：\n1. 可以調整段落順序，最多補兩句過場句，讓段落接得起來。\n2. 不可以改寫他的句子，不可以加入他沒提到的觀點、例子或書中情節。\n3. 保留他的第一人稱語氣與用字。\n4. 調整幅度上限：全文改動不超過五分之一。\n輸出：（1）調整後的完整文章；（2）條列說明你改了哪些地方、為什麼。\n\n學生的材料：\n【書名】"+p.book+"\n【作者】"+p.author+"\n【觀點關鍵詞】"+p.keyword+"\n【書中故事】"+p.story+"\n【我的觀點】"+p.myView+"\n【我的故事】"+p.myStory+"\n"+ext+"\n【讀後行動】"+p.action;
 }
 function renderAssembly(){const p=S.project;ui.aiStep=1;
  const ok=p&&(p.gates.g1&&p.gates.g2&&p.gates.g4);
@@ -744,6 +827,7 @@ function renderAssembly(){const p=S.project;ui.aiStep=1;
  $("asmMain").style.display=ok?"block":"none";
  if(!ok)return;
  p.draft=buildDraft(p);save();
+ $("selfDone").textContent="完成文章（+"+donePoints(p)+" ✨）";$("aiAllDone").textContent="完成文章（+"+donePoints(p)+" ✨，反思 +10 ✨）";
  $("draftView").textContent=p.draft;
  $("selfBox").style.display="none";$("aiBox").style.display="none";
  showAiStep(1);
@@ -794,9 +878,9 @@ $("aiEditDone").addEventListener("click",()=>{const t=$("ta-aiedit").value;
  if(t.replace(/\s/g,"").length<30){toast("再多寫一點");return;}
  S.project.final=t;save();showAiStep(4);});
 function finishArticle(viaAI){const p=S.project;
- if(!p.gates.asm){p.gates.asm=true;addPoints(20,"完成文章");}
+ if(!p.gates.asm){p.gates.asm=true;addPoints(donePoints(p),"完成文章");}
  if(viaAI&&!p.gates.ai){p.gates.ai=true;addPoints(10,"AI 協作與反思");award("ai");}
- if(!p.archived){p.archived=true;S.projects.push({d:todayStr(),book:p.book,author:p.author,keyword:p.keyword,final:p.final,reflection:p.reflection||""});}
+ if(!p.archived){p.archived=true;S.projects.push({d:todayStr(),book:p.book,author:p.author,keyword:p.keyword,final:p.final,reflection:p.reflection||"",mtype:p.mtype||"text",link:p.link||""});}
  save();go("result");}
 $("selfDone").addEventListener("click",()=>{const t=$("ta-self").value;
  if(t.replace(/\s/g,"").length<30){toast("再多寫一點");return;}
@@ -847,33 +931,42 @@ function renderCheckin(){
  $("ciForm").style.display=(!doneToday||ciMakeupMode)?"block":"none";
  $("ciBookWarn").style.display="none";
  ciDatesRender();
- $("ciSubmit").textContent=ciTarget===todayStr()?"完成打卡（+5 ✨）":"補 "+ciTarget.slice(5)+" 打卡（+5 ✨）";
+ document.querySelectorAll("#ciMtype button").forEach(b=>b.classList.toggle("on",b.dataset.mt===ciMtype));
+ const av=ciMtype==="av";
+ $("lb-c-book").textContent=av?"片名／節目名":"書名";
+ $("c-book").placeholder=av?"今天看／聽的是什麼？":"今天讀的是哪本書？";
+ $("lb-c-author").textContent=av?"講者／頻道":"作者";
+ $("lb-c-story").textContent=(av?"內容的故事":"書中故事")+"（一句話 ≤30 字，或一小段 ≤120 字）";
+ $("c-linkWrap").style.display=av?"block":"none";
+ const ciPts=av?3:6;
+ $("ciSubmit").textContent=ciTarget===todayStr()?("完成打卡（+"+ciPts+" ✨）"):("補 "+ciTarget.slice(5)+" 打卡（+"+ciPts+" ✨）");
  const list=$("ciList");
  if(!S.checkins.length){list.innerHTML="<p class='fine'>還沒有打卡紀錄。</p>";return;}
- list.innerHTML=S.checkins.slice(-7).reverse().map(c=>'<div class="rec-item"><button class="btn ghost ci-card-btn" data-d="'+c.d+'" type="button">✨ 金句卡</button><b>《'+esc(c.book)+'》</b>　'+esc(c.keyword)+(c.quote?'<br><span class="d">金句：'+esc(c.quote)+"</span>":"")+'<br><span class="d">'+c.d+"・"+esc(c.author)+"・"+esc(c.story)+"</span></div>").join("");
+ list.innerHTML=S.checkins.slice(-7).reverse().map(c=>'<div class="rec-item"><button class="btn ghost ci-card-btn" data-d="'+c.d+'" type="button">✨ 金句卡</button>'+(c.mtype==="av"?"🎧 ":"📖 ")+'<b>《'+esc(c.book)+'》</b>　'+esc(c.keyword)+(c.quote?'<br><span class="d">金句：'+esc(c.quote)+"</span>":"")+(c.link?'<br><span class="d">🔗 <a href="'+esc(c.link)+'" target="_blank" rel="noopener">作品連結</a></span>':"")+'<br><span class="d">'+c.d+"・"+esc(c.author)+"・"+esc(c.story)+"</span></div>").join("");
  list.querySelectorAll(".ci-card-btn").forEach(b=>b.addEventListener("click",()=>{const c=S.checkins.find(x=>x.d===b.dataset.d);if(c)openCard(c);}));
 }
 $("ciSubmit").addEventListener("click",()=>{
- const book=$("c-book").value.trim(),author=$("c-author").value.trim(),kw=$("c-keyword").value.trim(),quote=$("c-quote").value.trim(),story=$("c-story").value.trim();
+ const av=ciMtype==="av",pts=av?3:6;
+ const book=$("c-book").value.trim(),author=$("c-author").value.trim(),kw=$("c-keyword").value.trim(),quote=$("c-quote").value.trim(),story=$("c-story").value.trim(),link=av?$("c-link").value.trim():"";
  if(!book||!author||!kw||!story){toast("書名、作者、關鍵詞、故事都要填喔（金句選填）");return;}
  if(story.replace(/\s/g,"").length>120){toast("書中故事請控制在 120 字內");return;}
  const d=ciTarget;
  if(S.checkins.some(c=>c.d===d)){toast("這一天已經打過卡了");renderCheckin();return;}
  const same=S.checkins.filter(c=>c.book===book).length;
  if(same>=10){const w=$("ciBookWarn");w.textContent="《"+book+"》已經打卡 10 次了——換一本書，繼續你的閱讀冒險吧！";w.style.display="block";return;}
- S.checkins.push({d:d,book:book,author:author,keyword:kw,quote:quote,story:story});
- S.points+=5;save();updateChips();toast(d===todayStr()?"+5 ✨ 金沙｜每日打卡":"+5 ✨ 金沙｜補打卡 "+d.slice(5));
- postJSON(CFG.urls.track,{type:"checkin",points:5,book:book,payload:{d:d,book:book,author:author,keyword:kw,quote:quote,story:story}}).then(function(r){
-  if(r&&r.status==201){S.checkins=S.checkins.filter(function(c){return !(c.d===d&&c.book===book);});S.points=Math.max(0,S.points-5);save();updateChips();renderCheckin();toast(r.message||"打卡未成功");}
+ S.checkins.push({d:d,book:book,author:author,keyword:kw,quote:quote,story:story,mtype:ciMtype,link:link});
+ S.points+=pts;save();updateChips();toast(d===todayStr()?("+"+pts+" ✨ 金沙｜每日打卡"):("+"+pts+" ✨ 金沙｜補打卡 "+d.slice(5)));
+ postJSON(CFG.urls.track,{type:"checkin",points:pts,book:book,payload:{d:d,book:book,author:author,keyword:kw,quote:quote,story:story,mtype:ciMtype,link:link}}).then(function(r){
+  if(r&&r.status==201){S.checkins=S.checkins.filter(function(c){return !(c.d===d&&c.book===book);});S.points=Math.max(0,S.points-pts);save();updateChips();renderCheckin();toast(r.message||"打卡未成功");}
  });
- $("c-book").value=$("c-author").value=$("c-keyword").value=$("c-quote").value=$("c-story").value="";
+ $("c-book").value=$("c-author").value=$("c-keyword").value=$("c-quote").value=$("c-story").value="";$("c-link").value="";
  ciMakeupMode=false;ciTarget=todayStr();
  renderCheckin();});
 $("ciToCard").addEventListener("click",()=>{const c=latestCheckin();if(c)openCard(c);});
 $("ciToGate").addEventListener("click",()=>{
  if(S.project){go("map");return;}
  const c=latestCheckin();
- if(c){const p=ensureProject();p.book=c.book||"";p.author=c.author||"";p.keyword=c.keyword||"";p.story=c.story||"";save();toast("已幫你帶入打卡的四寶");}
+ if(c){const p=ensureProject();p.book=c.book||"";p.author=c.author||"";p.keyword=c.keyword||"";p.story=c.story||"";p.mtype=c.mtype||"text";p.link=c.link||"";save();toast("已幫你帶入打卡的四寶");}
  go("g1");});
 $("ciMakeup").addEventListener("click",()=>{
  let avail=null;
@@ -934,7 +1027,7 @@ function drawCard(){
  g.strokeStyle=t.accent;g.globalAlpha=.7;g.lineWidth=1.5;
  g.beginPath();g.moveTo(cx-190,divY);g.lineTo(cx-30,divY);g.moveTo(cx+30,divY);g.lineTo(cx+190,divY);g.stroke();g.globalAlpha=1;
  star4(g,cx,divY,10,t.accent);
- const quote=(ci.quote&&ci.quote.trim())?ci.quote.trim():(ci.keyword||"今日閱讀");
+ const quote=(ci.quote&&ci.quote.trim())?ci.quote.trim():((ci.story&&ci.story.replace(/\s/g,"").length<=30)?ci.story.trim():(ci.keyword||"今日閱讀"));
  const qTop=st?640:390,qBot=st?1490:770;
  let fs=st?92:68;const maxLines=st?6:4;
  let lines;
@@ -1000,8 +1093,8 @@ $("cardDl").addEventListener("click",()=>{
 function renderPortfolio(){
  $("pfSand").textContent=S.points;$("pfCheckins").textContent=S.checkins.length;$("pfArticles").textContent=S.projects.length;
  const items=[];
- S.projects.forEach((a,idx)=>items.push({d:a.d,html:'<div class="rec-item">📝 <b>《'+esc(a.book)+"》閱讀心得</b><button class=\"btn ghost reviseBtn\" data-idx=\""+idx+"\" type=\"button\" style=\"width:auto;min-height:34px;padding:2px 12px;font-size:14px;float:right\">✏️ 再修改</button><br><span class='d'>"+a.d+"・關鍵詞："+esc(a.keyword||"—")+"</span></div>"}));
- S.checkins.forEach(c=>items.push({d:c.d,html:'<div class="rec-item"><button class="btn ghost ci-card-btn" data-d="'+c.d+'" type="button">✨ 金句卡</button>✅ 打卡《'+esc(c.book)+'》　'+esc(c.keyword)+'<br><span class="d">'+c.d+"</span></div>"}));
+ S.projects.forEach((a,idx)=>items.push({d:a.d,html:'<div class="rec-item">'+(a.mtype==="av"?"🎧 ":"📖 ")+'📝 <b>《'+esc(a.book)+"》閱讀心得</b><button class=\"btn ghost reviseBtn\" data-idx=\""+idx+"\" type=\"button\" style=\"width:auto;min-height:34px;padding:2px 12px;font-size:14px;float:right\">✏️ 再修改</button><br><span class='d'>"+a.d+"・關鍵詞："+esc(a.keyword||"—")+"</span></div>"}));
+ S.checkins.forEach(c=>items.push({d:c.d,html:'<div class="rec-item"><button class="btn ghost ci-card-btn" data-d="'+c.d+'" type="button">✨ 金句卡</button>'+(c.mtype==="av"?"🎧 ":"📖 ")+'✅ 打卡《'+esc(c.book)+'》　'+esc(c.keyword)+'<br><span class="d">'+c.d+"</span></div>"}));
  items.sort((a,b)=>a.d<b.d?1:-1);
  $("pfList").innerHTML=items.length?items.map(i=>i.html).join(""):"<p class='fine'>還沒有紀錄，去寫第一篇吧！</p>";
  document.querySelectorAll(".reviseBtn").forEach(b=>b.addEventListener("click",()=>revise(+b.dataset.idx)));
@@ -1013,7 +1106,7 @@ function portfolioMd(days){let cut=null;
  const arts=S.projects.filter(a=>!cut||a.d>=cut);
  const cks=S.checkins.filter(c=>!cut||c.d>=cut);
  if(arts.length){lines.push("## 完成文章","");arts.forEach(a=>{lines.push("### 《"+a.book+"》閱讀心得（"+a.d+"）","",a.final||"",a.reflection?("\n> AI 協作反思："+a.reflection):"","");});}
- if(cks.length){lines.push("## 每日打卡（閱讀四寶）","");cks.forEach(c=>{lines.push("- **"+c.d+"**｜《"+c.book+"》"+c.author+"｜關鍵詞："+c.keyword+"｜"+c.story);});lines.push("");}
+ if(cks.length){lines.push("## 每日打卡（閱讀四寶）","");cks.forEach(c=>{lines.push("- **"+c.d+"**｜"+(c.mtype==="av"?"🎧 ":"📖 ")+"《"+c.book+"》"+c.author+"｜關鍵詞："+c.keyword+"｜"+c.story+(c.link?"｜🔗 "+c.link:""));});lines.push("");}
  return lines.join("\n");
 }
 /* ---------- Word／PDF 下載（2026-08-26 定案：取代 .md） ---------- */
@@ -1026,7 +1119,7 @@ function portfolioDoc(days){let cut=null;if(days){const d=new Date();d.setDate(d
  let h="<h1>我的學習歷程</h1><p>匯出日期："+todayStr()+"　總金沙："+S.points+"　打卡："+S.checkins.length+" 次　完成文章："+S.projects.length+" 篇</p>";
  const arts=S.projects.filter(function(a){return !cut||a.d>=cut;});const cks=S.checkins.filter(function(c){return !cut||c.d>=cut;});
  if(arts.length){h+="<h2>完成文章</h2>";arts.forEach(function(a){h+="<h2>《"+esc(a.book)+"》閱讀心得（"+esc(a.d)+"）</h2>"+paras(a.final||"");if(a.reflection){h+="<p><b>AI 協作反思：</b>"+esc(a.reflection)+"</p>";}});}
- if(cks.length){h+="<h2>每日打卡（閱讀四寶）</h2>";cks.forEach(function(c){h+="<p><b>"+esc(c.d)+"</b>｜《"+esc(c.book)+"》"+esc(c.author)+"｜關鍵詞："+esc(c.keyword)+"｜"+esc(c.story)+"</p>";});}
+ if(cks.length){h+="<h2>每日打卡（閱讀四寶）</h2>";cks.forEach(function(c){h+="<p><b>"+esc(c.d)+"</b>｜"+(c.mtype==="av"?"🎧 ":"📖 ")+"《"+esc(c.book)+"》"+esc(c.author)+"｜關鍵詞："+esc(c.keyword)+"｜"+esc(c.story)+(c.link?"｜🔗 "+esc(c.link):"")+"</p>";});}
  return h;}
 function download(name,text){const blob=new Blob([text],{type:"text/markdown;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},200);}
 $("dlAll").addEventListener("click",()=>{downloadDoc("學習歷程_全部_"+todayStr()+".doc",docHtml("我的學習歷程",portfolioDoc(0)));toast("已下載 Word 檔");});
@@ -1035,7 +1128,7 @@ $("prnAll").addEventListener("click",()=>{printDoc("我的學習歷程",portfoli
 
 /* ---------- 小王子範例 ---------- */
 function loadDemo(silent){
- S.project={book:"小王子",author:"安東尼・聖修伯里",keyword:"馴養",
+ S.project={mtype:"text",link:"",book:"小王子",author:"安東尼・聖修伯里",keyword:"馴養",
   story:"狐狸教小王子「馴養」：建立關係，讓彼此成為唯一。",
   photo:"",
   myView:"我同意。關係的價值不在對方本來多特別，而在你願意為他花多少時間。",
@@ -1069,11 +1162,12 @@ $("btnSubmitArticle").addEventListener("click",()=>{const p=S.project;
   if(p.extText&&p.extText.trim())lines.push("◆ 第三頁｜別人的故事（"+p.extAngle+"）："+p.extText);
   else if(p.learned&&p.learned.trim())lines.push("◆ 第三頁｜我學到了什麼："+p.learned);
   lines.push("◆ 第四頁｜讀後行動："+p.action);
+  if(p.link&&p.link.trim())lines.push("◆ 作品連結："+p.link.trim());
  }else{lines.push("◆ 自由書寫通道（不使用框架）");}
  if(p.draft&&p.draft.trim()&&p.final.trim()!==p.draft.trim()){lines.push("");lines.push("【組裝草稿】");lines.push(p.draft);}
  if(p.aiText&&p.aiText.trim()&&p.aiText.trim()!==p.final.trim()){lines.push("");lines.push("【AI 協作版本】");lines.push(p.aiText);}
  if(p.reflection&&p.reflection.trim()){lines.push("");lines.push("【AI 協作反思】");lines.push(p.reflection);}
- postJSON(CFG.urls.article,{title:"《"+(p.book||"我的書")+"》閱讀心得",content:lines.join("\n"),path:p.freeMode?"free":(p.aiText?"ai":"self"),book:p.book||"",author:p.author||"",keyword:p.keyword||"",final:p.final,reflection:p.reflection||""}).then(function(r){
+ postJSON(CFG.urls.article,{title:"《"+(p.book||"我的書")+"》閱讀心得",content:lines.join("\n"),path:p.freeMode?"free":(p.aiText?"ai":"self"),book:p.book||"",author:p.author||"",keyword:p.keyword||"",final:p.final,reflection:p.reflection||"",mtype:p.mtype||"text",link:p.link||""}).then(function(r){
   btn.disabled=false;btn.textContent="📮 繳交文章";
   if(r&&r.status==200){p.submitted=true;save();renderResult();toast("✅ 已繳交！到「文章管理」可以看見");}
   else{const em=(r&&r.message)?r.message:"繳交失敗，請稍後再試";const eb=$("submitErr");eb.textContent="⚠️ "+em+"（你的內容都還在，可以直接再按一次）";eb.style.display="block";toast(em);}
@@ -1091,7 +1185,7 @@ $("aiBack4").addEventListener("click",()=>showAiStep(3));
 function revise(idx){const a=S.projects[idx];if(!a)return;
  if(S.project&&S.project.book&&!S.project.submitted){if(!confirm("目前已有一篇寫到一半的《"+S.project.book+"》，「再修改」會覆蓋它。確定嗎？"))return;}
  S.project={book:a.book||"",author:a.author||"",keyword:a.keyword||"",story:"",photo:"",myView:"",myStory:"",extAngle:"",extText:"",learned:"",action:"",freeText:"",freeBook:"",draft:a.final||"",aiText:"",reflection:a.reflection||"",final:a.final||"",gates:{g1:true,g2:true,g3:true,g4:true,asm:true},createdAt:todayStr(),selfText:a.final||""};
- save();go("assembly");setTimeout(()=>{S.project.draft=S.project.final;$("draftView").textContent=S.project.final;$("btnSelf").click();$("ta-self").value=S.project.final;},150);toast("已載入上次的文章，改完按「完成文章」���繳交");}
+ save();go("assembly");setTimeout(()=>{S.project.draft=S.project.final;$("draftView").textContent=S.project.final;$("btnSelf").click();$("ta-self").value=S.project.final;},150);toast("已載入上次的文章，改完按「完成文章」再繳交");}
 
 /* ---------- 啟動 ---------- */
 (function init(){
