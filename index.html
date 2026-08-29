@@ -1052,12 +1052,13 @@ function drawCard(){
  const qTop=st?640:390,qBot=st?1490:770;
  let fs=st?92:68;const maxLines=st?6:4;
  let lines;
- while(true){g.font="700 "+fs+"px "+font;lines=wrapCJK(g,quote,st?780:820);if(lines.length<=maxLines||fs<=34)break;fs-=6;}
+ while(true){g.font="700 "+fs+"px "+font;lines=wrapCJK(g,quote,st?780:820);if(lines.length<=maxLines&&Math.max.apply(null,lines.map(ln=>g.measureText(ln).width))<=(st?820:840)||fs<=34)break;fs-=6;}
  const lh=fs*1.5,blockH=lines.length*lh;
  const qy=qTop+Math.max(0,(qBot-qTop-60-blockH)/2);
+ const firstW=g.measureText(lines[0]).width,lastW=g.measureText(lines[lines.length-1]).width;
  g.fillStyle=t.accent;g.font="700 "+(st?150:120)+"px Georgia,serif";
- g.fillText("“",cx-(st?360:330),qy-30);
- g.fillText("”",cx+(st?360:330),qy+blockH+10);
+ g.fillText("“",Math.max(cx-firstW/2-(st?64:52),m+30),qy-30);
+ g.fillText("”",Math.min(cx+lastW/2+(st?56:44),W-m-30),qy+blockH+10);
  g.fillStyle=t.ink;g.font="700 "+fs+"px "+font;g.textBaseline="top";
  lines.forEach((ln,i)=>g.fillText(ln,cx,qy+i*lh));
  g.textBaseline="middle";
