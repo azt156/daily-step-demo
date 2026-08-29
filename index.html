@@ -976,9 +976,18 @@ $("ciSubmit").addEventListener("click",()=>{
  }catch(ciEx){ciDone();const eb2=$("ciErr");if(eb2){eb2.textContent="⚠️ 打卡沒有成功（"+(ciEx&&ciEx.message?ciEx.message:ciEx)+"）。你填的內容還在，請再按一次；一直出現的話，請把這段紅字截圖傳給我。";eb2.style.display="block";}}});
 $("ciToCard").addEventListener("click",()=>{try{const c=latestCheckin();if(c)openCard(c);else toast("還沒有打卡紀錄");}catch(cardEx){const eb=$("ciErr");if(eb){eb.textContent="⚠️ 金句卡打開時發生問題（"+(cardEx&&cardEx.message?cardEx.message:cardEx)+"）。請把這段紅字截圖傳給我。";eb.style.display="block";}}});
 $("ciToGate").addEventListener("click",()=>{
- if(S.project){go("map");return;}
  const c=latestCheckin();
- if(c){const p=ensureProject();p.book=c.book||"";p.author=c.author||"";p.keyword=c.keyword||"";p.story=c.story||"";p.mtype=c.mtype||"text";p.link=c.link||"";save();toast("已幫你帶入打卡的四寶");}
+ if(!c){if(S.project){go("map");}else{go("g1");}return;}
+ const p=S.project;
+ if(p){
+  const sameBook=p.book===c.book;
+  const moreContent=(p.myView&&p.myView.trim())||(p.myStory&&p.myStory.trim())||(p.extText&&p.extText.trim())||(p.learned&&p.learned.trim())||(p.action&&p.action.trim())||(p.freeText&&p.freeText.trim())||(p.draft&&p.draft.trim())||(p.final&&p.final.trim());
+  if(sameBook&&!moreContent){go("map");return;}
+  const what=sameBook?("你已有一篇寫到一半的《"+c.book+"》"):("你已有一篇寫到一半的《"+(p.book||"未命名")+"》（不是今天打卡的書）");
+  if(!confirm(what+"。\n\n按「確定」：用今天打卡的《"+c.book+"》從頭開始（舊稿會清掉，四寶自動帶入）。\n按「取消」：繼續寫原來那篇。")){go("map");return;}
+  S.project=null;
+ }
+ const np=ensureProject();np.book=c.book||"";np.author=c.author||"";np.keyword=c.keyword||"";np.story=c.story||"";np.mtype=c.mtype||"text";np.link=c.link||"";save();toast("已幫你帶入打卡的四寶");
  go("g1");});
 $("ciMakeup").addEventListener("click",()=>{
  let avail=null;
