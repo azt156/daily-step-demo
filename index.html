@@ -967,7 +967,7 @@ $("ciSubmit").addEventListener("click",()=>{
  S.checkins.push({d:d,book:book,author:author,keyword:kw,quote:quote,story:story,mtype:ciMtype,link:link});
  S.points+=pts;save();updateChips();toast(d===todayStr()?("+"+pts+" ✨ 金沙｜每日打卡"):("+"+pts+" ✨ 金沙｜補打卡 "+d.slice(5)));
  postJSON(CFG.urls.track,{type:"checkin",points:pts,book:book,payload:{d:d,book:book,author:author,keyword:kw,quote:quote,story:story,mtype:ciMtype,link:link}}).then(function(r){
-  if(r&&r.status==201){S.checkins=S.checkins.filter(function(c){return !(c.d===d&&c.book===book);});S.points=Math.max(0,S.points-pts);save();updateChips();renderCheckin();toast(r.message||"打卡未成功");}
+  if(r&&r.status==201){S.checkins=S.checkins.filter(function(c){return !(c.d===d&&c.book===book);});S.points=Math.max(0,S.points-pts);save();updateChips();renderCheckin();toast(r.message||"打卡未成功");const rb=$("ciErr");if(rb&&r&&r.message){rb.textContent="⚠️ 伺服器退回了這次打卡："+r.message+"（你填的內容如果還在，可以修正後再按一次）";rb.style.display="block";}}
  });
  $("c-book").value=$("c-author").value=$("c-keyword").value=$("c-quote").value=$("c-story").value="";$("c-link").value="";
  ciMakeupMode=false;ciTarget=todayStr();
