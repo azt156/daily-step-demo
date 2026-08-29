@@ -521,6 +521,7 @@ input[type=url]{width:100%;padding:12px;border:1px solid var(--border);border-ra
     <button class="btn ghost" data-go="home">← 回首頁</button>
    </div>
   </div>
+  <div class="note warn" id="ciErr" style="display:none"></div>
   <div id="ciForm">
    <div class="note warn" id="ciBookWarn" style="display:none"></div>
    <label>今天的是哪一種？</label>
@@ -569,6 +570,9 @@ input[type=url]{width:100%;padding:12px;border:1px solid var(--border);border-ra
   <label for="cardName">卡片上的稱謂</label>
   <p class="hint">會顯示在卡片下方「寫心閱曆365挑戰」前面。預設是你的帳號名稱；要分享到 IG／FB 的話，建議改成暱稱——不用把真名貼上社群，也能累積自己的閱讀品牌。</p>
   <input type="text" id="cardName" placeholder="例：Kira">
+  <label for="cardQuote">卡片上的金句（可以修改）</label>
+  <p class="hint">預設帶入你打卡寫的句子；想改字、去掉句號都可以，改完卡片會即時重畫。</p>
+  <input type="text" id="cardQuote">
   <label>尺寸</label>
   <div class="tabs">
    <button class="btn soft" id="cardSq" type="button">方形 1:1（貼文）</button>
@@ -618,6 +622,7 @@ window.DAILY_STEP_CFG={studentName:"",temp:null,urls:{track:"",article:"",tempUr
 </script>
 <script>
 "use strict";
+window.addEventListener("error",function(e){try{var eb=document.getElementById("ciErr");if(eb){eb.textContent="⚠️ 頁面發生錯誤："+(e.message||"unknown")+"（第 "+(e.lineno||"?")+" 行）——請把這段紅字截圖傳給我";eb.style.display="block";}}catch(_){}});
 const $=id=>document.getElementById(id);
 const LS="lexie3gates.v2";
 const BADGES={kingkong:{icon:"💎",name:"閱讀四寶"},story:{icon:"📖",name:"故事家"},ext:{icon:"👥",name:"別人的故事"},action:{icon:"🎯",name:"行動家"},ai:{icon:"🤖",name:"AI 判斷力"}};
@@ -946,14 +951,19 @@ function renderCheckin(){
  list.querySelectorAll(".ci-card-btn").forEach(b=>b.addEventListener("click",()=>{const c=S.checkins.find(x=>x.d===b.dataset.d);if(c)openCard(c);}));
 }
 $("ciSubmit").addEventListener("click",()=>{
+ const ciBtn=$("ciSubmit");if(ciBtn.disabled)return;const ciOldTxt=ciBtn.textContent;
+ const ciDone=()=>{ciBtn.disabled=false;ciBtn.textContent=ciOldTxt;};
+ const ciErrBox=$("ciErr");if(ciErrBox)ciErrBox.style.display="none";
+ try{
+ ciBtn.disabled=true;ciBtn.textContent="打卡中……";
  const av=ciMtype==="av",pts=av?3:6;
  const book=$("c-book").value.trim(),author=$("c-author").value.trim(),kw=$("c-keyword").value.trim(),quote=$("c-quote").value.trim(),story=$("c-story").value.trim(),link=av?$("c-link").value.trim():"";
- if(!book||!author||!kw||!story){toast("書名、作者、關鍵詞、故事都要填喔（金句選填）");return;}
- if(story.replace(/\s/g,"").length>120){toast("書中故事請控制在 120 字內");return;}
+ if(!book||!author||!kw||!story){ciDone();toast("書名、作者、關鍵詞、故事都要填喔（金句選填）");return;}
+ if(story.replace(/\s/g,"").length>120){ciDone();toast("書中故事請控制在 120 字內");return;}
  const d=ciTarget;
- if(S.checkins.some(c=>c.d===d)){toast("這一天已經打過卡了");renderCheckin();return;}
+ if(S.checkins.some(c=>c.d===d)){ciDone();toast("這一天已經打過卡了");renderCheckin();return;}
  const same=S.checkins.filter(c=>c.book===book).length;
- if(same>=10){const w=$("ciBookWarn");w.textContent="《"+book+"》已經打卡 10 次了——換一本書，繼續你的閱讀冒險吧！";w.style.display="block";return;}
+ if(same>=10){ciDone();const w=$("ciBookWarn");w.textContent="《"+book+"》已經打卡 10 次了——換一本書，繼續你的閱讀冒險吧！";w.style.display="block";return;}
  S.checkins.push({d:d,book:book,author:author,keyword:kw,quote:quote,story:story,mtype:ciMtype,link:link});
  S.points+=pts;save();updateChips();toast(d===todayStr()?("+"+pts+" ✨ 金沙｜每日打卡"):("+"+pts+" ✨ 金沙｜補打卡 "+d.slice(5)));
  postJSON(CFG.urls.track,{type:"checkin",points:pts,book:book,payload:{d:d,book:book,author:author,keyword:kw,quote:quote,story:story,mtype:ciMtype,link:link}}).then(function(r){
@@ -961,8 +971,10 @@ $("ciSubmit").addEventListener("click",()=>{
  });
  $("c-book").value=$("c-author").value=$("c-keyword").value=$("c-quote").value=$("c-story").value="";$("c-link").value="";
  ciMakeupMode=false;ciTarget=todayStr();
- renderCheckin();});
-$("ciToCard").addEventListener("click",()=>{const c=latestCheckin();if(c)openCard(c);});
+ renderCheckin();ciBtn.disabled=false;
+ const ciDb=$("ciDoneBox");if(ciDb&&ciDb.style.display!=="none"){window.scrollTo(0,ciDb.getBoundingClientRect().top+window.scrollY-80);}
+ }catch(ciEx){ciDone();const eb2=$("ciErr");if(eb2){eb2.textContent="⚠️ 打卡沒有成功（"+(ciEx&&ciEx.message?ciEx.message:ciEx)+"）。你填的內容還在，請再按一次；一直出現的話，請把這段紅字截圖傳給我。";eb2.style.display="block";}}});
+$("ciToCard").addEventListener("click",()=>{try{const c=latestCheckin();if(c)openCard(c);else toast("還沒有打卡紀錄");}catch(cardEx){const eb=$("ciErr");if(eb){eb.textContent="⚠️ 金句卡打開時發生問題（"+(cardEx&&cardEx.message?cardEx.message:cardEx)+"）。請把這段紅字截圖傳給我。";eb.style.display="block";}}});
 $("ciToGate").addEventListener("click",()=>{
  if(S.project){go("map");return;}
  const c=latestCheckin();
@@ -987,10 +999,10 @@ const CARD_TPLS=[
  {name:"週日",bg:"#F4FBF5",ink:"#40604C",accent:"#5A9E6F",blobs:["#CDE9D6","#DFF3E4","#D8E8F5","#FDEBD0"],deco:"star"}
 ];
 let cardData={ci:null,tpl:0,size:"sq"};
-function openCard(ci){cardData.ci=ci;const wd=new Date(ci.d+"T12:00:00").getDay();cardData.tpl=(wd+6)%7;cardData.size="sq";go("card");}
+function openCard(ci){cardData.ci=ci;cardData.quote=(ci.quote&&ci.quote.trim())?ci.quote.trim():((ci.story&&ci.story.replace(/\s/g,"").length<=30)?ci.story.trim():(ci.keyword||"今日閱讀"));const wd=new Date(ci.d+"T12:00:00").getDay();cardData.tpl=(wd+6)%7;cardData.size="sq";go("card");}
 function rr(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();}
 function star4(g,cx,cy,r,color){g.fillStyle=color;g.globalAlpha=.85;g.beginPath();g.moveTo(cx,cy-r);g.quadraticCurveTo(cx,cy,cx+r,cy);g.quadraticCurveTo(cx,cy,cx,cy+r);g.quadraticCurveTo(cx,cy,cx-r,cy);g.quadraticCurveTo(cx,cy,cx,cy-r);g.fill();g.globalAlpha=1;}
-function wrapCJK(g,text,maxW){const lines=[];let line="";for(const ch of String(text)){if(ch==="\n"){lines.push(line);line="";continue;}const t=line+ch;if(line&&g.measureText(t).width>maxW){lines.push(line);line=ch;}else line=t;}if(line)lines.push(line);return lines;}
+function wrapCJK(g,text,maxW){const lines=[];let line="";const NO_START="。，、！？；：」』）】…—％";for(const ch of String(text)){if(ch==="\n"){lines.push(line);line="";continue;}const t=line+ch;if(line&&NO_START.indexOf(ch)<0&&g.measureText(t).width>maxW){lines.push(line);line=ch;}else line=t;}if(line)lines.push(line);return lines;}
 function drawDeco(g,t,W,H,u){
  const a=t.accent;
  if(t.deco==="dots"){g.fillStyle=a;g.globalAlpha=.5;for(let r=0;r<3;r++)for(let c=0;c<5;c++){g.beginPath();g.arc(W*0.12+c*22*u,H*0.09+r*22*u,3.2*u,0,7);g.fill();}g.globalAlpha=1;}
@@ -1027,7 +1039,7 @@ function drawCard(){
  g.strokeStyle=t.accent;g.globalAlpha=.7;g.lineWidth=1.5;
  g.beginPath();g.moveTo(cx-190,divY);g.lineTo(cx-30,divY);g.moveTo(cx+30,divY);g.lineTo(cx+190,divY);g.stroke();g.globalAlpha=1;
  star4(g,cx,divY,10,t.accent);
- const quote=(ci.quote&&ci.quote.trim())?ci.quote.trim():((ci.story&&ci.story.replace(/\s/g,"").length<=30)?ci.story.trim():(ci.keyword||"今日閱讀"));
+ const quote=(typeof cardData.quote==="string"&&cardData.quote.trim())?cardData.quote.trim():"今日閱讀";
  const qTop=st?640:390,qBot=st?1490:770;
  let fs=st?92:68;const maxLines=st?6:4;
  let lines;
@@ -1064,8 +1076,10 @@ function drawCard(){
  g.fillText("樂寫學習網，隨時陪伴你｜colearn30.com",cx,rowY+(st?136:106));g.globalAlpha=1;
 }
 function renderCard(){
+ try{
  const ci=cardData.ci;if(!ci){go("checkin");return;}
  const ni=$("cardName");if(document.activeElement!==ni)ni.value=(typeof S.cardName==="string"?S.cardName:(CFG.studentName||""));
+ const qi=$("cardQuote");if(qi&&document.activeElement!==qi)qi.value=cardData.quote||"";
  drawCard();
  $("cardSq").className="btn "+(cardData.size==="sq"?"soft":"ghost");
  $("cardSt").className="btn "+(cardData.size==="st"?"soft":"ghost");
@@ -1077,10 +1091,12 @@ function renderCard(){
   b.addEventListener("click",()=>{cardData.tpl=i;renderCard();});
   w.appendChild(b);
  });
+ }catch(cardDrawEx){go("checkin");const eb=$("ciErr");if(eb){eb.textContent="⚠️ 金句卡產生時發生問題（"+(cardDrawEx&&cardDrawEx.message?cardDrawEx.message:cardDrawEx)+"）。請把這段紅字截圖傳給我。";eb.style.display="block";}}
 }
 $("cardSq").addEventListener("click",()=>{cardData.size="sq";renderCard();});
 $("cardSt").addEventListener("click",()=>{cardData.size="st";renderCard();});
 $("cardName").addEventListener("input",()=>{S.cardName=$("cardName").value;save();drawCard();});
+$("cardQuote").addEventListener("input",()=>{cardData.quote=$("cardQuote").value;drawCard();});
 $("cardDl").addEventListener("click",()=>{
  const ci=cardData.ci;if(!ci)return;
  const a=document.createElement("a");
