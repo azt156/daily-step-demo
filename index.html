@@ -133,6 +133,13 @@ pre.prompt{white-space:pre-wrap;word-break:break-word;background:var(--soft);bor
 .cta-stats b{color:var(--text)}
 .cta-links{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:6px}
 .cta-links .btn{width:auto;min-height:38px;padding:6px 14px;font-size:15px}
+.lb-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-bottom:1px solid var(--soft);font-size:16px}
+.lb-row:last-child{border-bottom:none}
+.lb-row.me{background:var(--blue-soft);border-radius:6px}
+.lb-rank{width:64px;flex-shrink:0;font-weight:700;color:var(--text2)}
+.lb-row.me .lb-rank{color:var(--blue)}
+.lb-nick{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.lb-pts{flex-shrink:0;font-weight:700;color:var(--blue)}
 .howto{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;text-align:center}
 .howto .circ{display:inline-flex;width:64px;height:64px;border-radius:50%;align-items:center;justify-content:center;font-size:28px;margin-bottom:8px}
 .howto .c1{background:#FCE4EC}.howto .c2{background:#E8F5E9}.howto .c3{background:#E3F2FD}.howto .c4{background:#FFF8E1}
@@ -220,6 +227,21 @@ input[type=url]{width:100%;padding:12px;border:1px solid var(--border);border-ra
   <p class="cta-stats">✨ <b id="homeSand">0</b> 金沙　🔥 連續 <b id="homeStreak">0</b> 天　📚 累計 <b id="homeTotal">0</b> 天　📝 <b id="homeArticles">0</b> 篇文章</p>
   <p class="cta-stats" style="margin-top:2px;font-size:14px">📖 文本 <b id="homeText">0</b> 次・🎧 數位 <b id="homeAv">0</b> 次　（文本閱讀加碼 +6 ✨）</p>
   <div class="cta-links"><button class="btn ghost" id="btnDemo">📖 看看《小王子》範例</button><button class="btn ghost" id="btnPortfolio">🗂 我的學習歷程</button></div>
+ </div>
+ <div class="card" id="lbCard">
+  <h2>🏆 每日一小步排行榜</h2>
+  <p class="fine" id="lbPeriod" style="margin:0 0 10px">本期賽程：載入中……</p>
+  <div id="lbList"><p class="fine">排行榜載入中……</p></div>
+  <div class="note" id="lbMe" style="display:none;margin-top:10px"></div>
+  <div style="margin-top:14px">
+   <label for="lbNick">上榜稱謂（暱稱）</label>
+   <p class="hint">排行榜不會顯示真名，也看不到完整帳號。建議設一個自己的暱稱（例如：小書蟲），之後隨時可以改。</p>
+   <div style="display:flex;gap:8px">
+    <input type="text" id="lbNick" placeholder="例：小書蟲" maxlength="20" style="flex:1;margin-bottom:0">
+    <button class="btn primary" id="lbNickSave" type="button" style="width:auto;min-height:46px;padding:8px 20px;flex-shrink:0">儲存</button>
+   </div>
+   <p class="hint" id="lbNickMsg" style="display:none;margin-top:6px"></p>
+  </div>
  </div>
  <div class="card">
   <h2>怎麼玩？</h2>
@@ -681,11 +703,34 @@ window.addEventListener("hashchange",()=>show((location.hash||"#home").slice(1))
 document.querySelectorAll("[data-go]").forEach(el=>el.addEventListener("click",e=>{e.preventDefault();go(el.dataset.go);}));
 
 /* ---------- 首頁 ---------- */
-function renderHome(){$("homeSand").textContent=S.points;$("homeStreak").textContent=streak();$("homeTotal").textContent=totalDays();$("homeArticles").textContent=S.projects.length;$("btnStart").textContent=S.project?"🏁 繼續闖關（寫一篇心得）":"🏁 闖關寫一篇心得";$("homeText").textContent=S.checkins.filter(c=>c.mtype!=="av").length+S.projects.filter(a=>a.mtype!=="av").length;$("homeAv").textContent=S.checkins.filter(c=>c.mtype==="av").length+S.projects.filter(a=>a.mtype==="av").length;}
+function renderHome(){$("homeSand").textContent=S.points;$("homeStreak").textContent=streak();$("homeTotal").textContent=totalDays();$("homeArticles").textContent=S.projects.length;$("btnStart").textContent=S.project?"🏁 繼續闖關（寫一篇心得）":"🏁 闖關寫一篇心得";$("homeText").textContent=S.checkins.filter(c=>c.mtype!=="av").length+S.projects.filter(a=>a.mtype!=="av").length;$("homeAv").textContent=S.checkins.filter(c=>c.mtype==="av").length+S.projects.filter(a=>a.mtype==="av").length;lbLoad();}
 $("btnStart").addEventListener("click",()=>{ensureProject();save();go("map");});
 $("btnCheckin").addEventListener("click",()=>go("checkin"));
 $("btnPortfolio").addEventListener("click",()=>go("portfolio"));
 $("btnDemo").addEventListener("click",()=>{loadDemo();toast("已載入《小王子》範例");});
+
+/* ---------- 排行榜（v13・線上試用版：示範資料，不連伺服器） ---------- */
+function lbFmt(s){const p=String(s||"").split("-");return p.length===3?(Number(p[1])+"/"+Number(p[2])):s;}
+function lbRender(d){
+ $("lbPeriod").textContent="本期賽程："+lbFmt(d.period.start)+" – "+lbFmt(d.period.end)+"（這個區間內得到的積分才列入排名）"+(d.demoData?"・以下為示範資料":"");
+ const medals=["🥇","🥈","🥉"];
+ let h="";
+ d.top.forEach(function(r){
+  const rk=r.rank<=3?medals[r.rank-1]:("第"+r.rank+"名");
+  h+="<div class=\"lb-row\"><span class=\"lb-rank\">"+rk+"</span><span class=\"lb-nick\">"+esc(r.nick)+"</span><span class=\"lb-pts\">"+r.points+" ✨</span></div>";
+ });
+ $("lbList").innerHTML=h;
+ const box=$("lbMe");box.style.display="block";
+ box.innerHTML="正式版（colearn30.com）登入後，這裡會顯示<b>你的名次</b>與即時排行。";
+}
+function lbLoad(){lbRender({period:{start:"2026-09-01",end:"2026-09-30"},demoData:true,top:[
+ {rank:1,nick:"小書蟲",points:56},{rank:2,nick:"Kira",points:44},{rank:3,nick:"愛讀者",points:38},
+ {rank:4,nick:"ki***",points:26},{rank:5,nick:"閱讀小達人",points:20}]});}
+$("lbNickSave").addEventListener("click",function(){
+ const v=$("lbNick").value.trim();const msg=$("lbNickMsg");
+ if(!v){toast("先輸入一個暱稱喔");return;}
+ msg.style.display="block";msg.textContent="💡 線上試用版不會真的上榜——正式版登入後，暱稱會儲存到你的帳號並顯示在排行榜。";
+});
 
 /* ---------- 地圖 ---------- */
 function renderMap(){const p=S.project;const done=id=>p&&p.gates[id];
@@ -1128,7 +1173,7 @@ function renderPortfolio(){
 }
 function portfolioMd(days){let cut=null;
  if(days){const d=new Date();d.setDate(d.getDate()-days);cut=todayStr(d);}
- const lines=["# 我的學習歷程","","匯出日期："+todayStr(),"總金沙："+S.points+"　打卡："+S.checkins.length+" 次　完成文章："+S.projects.length+" 篇",""];
+ const lines=["# 我的學習歷程","","匯出日期："+todayStr(),"總金沙："+S.points+"　打卡："+S.checkins.length+" 次　���成文章："+S.projects.length+" 篇",""];
  const arts=S.projects.filter(a=>!cut||a.d>=cut);
  const cks=S.checkins.filter(c=>!cut||c.d>=cut);
  if(arts.length){lines.push("## 完成文章","");arts.forEach(a=>{lines.push("### 《"+a.book+"》閱讀心得（"+a.d+"）","",a.final||"",a.reflection?("\n> AI 協作反思："+a.reflection):"","");});}
