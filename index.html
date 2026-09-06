@@ -640,7 +640,7 @@ input[type=url]{width:100%;padding:12px;border:1px solid var(--border);border-ra
 <div id="toast"></div>
 <script>
 window.DAILY_STEP_CLOUD={"points":0,"badges":[],"checkins":[],"projects":[]};
-window.DAILY_STEP_CFG={studentName:"",temp:null,urls:{track:"",article:"",tempUrl:"",list:"https://colearn30.com"},csrf:""};
+window.DAILY_STEP_CFG={studentName:"",studentEmail:"",temp:null,urls:{track:"",article:"",tempUrl:"",list:"https://colearn30.com"},csrf:""};
 </script>
 <script>
 "use strict";
@@ -658,7 +658,7 @@ const GATES=[
 ];
 let ui={aiStep:1};
 function freshState(){return {points:0,badges:[],checkins:[],projects:[],project:null,demo:false};}
-function load(){try{const s=JSON.parse(localStorage.getItem(LS));if(s&&typeof s==="object")return Object.assign(freshState(),s);}catch(e){}return freshState();}
+function load(){try{const s=JSON.parse(localStorage.getItem(LS));if(s&&typeof s==="object"){const curEm=(window.DAILY_STEP_CFG&&window.DAILY_STEP_CFG.studentEmail)||"";if((s._email||"")!==curEm)return freshState();return Object.assign(freshState(),s);}}catch(e){}return freshState();}
 let S=load();
 /* ===== 樂寫網站整合（外掛新增區，原型邏輯不變） ===== */
 const CFG=window.DAILY_STEP_CFG||{urls:{},csrf:"",studentName:""};
@@ -670,7 +670,7 @@ const CFG=window.DAILY_STEP_CFG||{urls:{},csrf:"",studentName:""};
 }catch(e){}})();
 function postJSON(url,data){if(!url)return Promise.resolve(null);try{return fetch(url,{method:"POST",headers:{"Content-Type":"application/json","X-CSRF-TOKEN":CFG.csrf,"X-Requested-With":"XMLHttpRequest"},body:JSON.stringify(data)}).then(function(r){return r.json();}).catch(function(){return null;});}catch(e){return Promise.resolve(null);}}
 let saveTimer=null;
-function save(){try{localStorage.setItem(LS,JSON.stringify(S));}catch(e){}
+function save(){try{S._email=(window.DAILY_STEP_CFG&&window.DAILY_STEP_CFG.studentEmail)||"";localStorage.setItem(LS,JSON.stringify(S));}catch(e){}
  clearTimeout(saveTimer);saveTimer=setTimeout(function(){postJSON(CFG.urls.tempUrl,{state:{project:S.project}});},800);}
 function track(type,points,book,payload){postJSON(CFG.urls.track,{type:type,points:points||0,book:book||"",payload:payload||{}});}
 function isAv(p){return !!(p&&p.mtype==="av");}
