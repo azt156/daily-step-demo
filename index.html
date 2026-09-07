@@ -154,6 +154,8 @@ pre.prompt{white-space:pre-wrap;word-break:break-word;background:var(--soft);bor
 .mtype button.on small{color:var(--blue)}
 input[type=url]{width:100%;padding:12px;border:1px solid var(--border);border-radius:4px;background:var(--canvas);color:var(--text);font:inherit;font-size:16px}
 .icorow{display:flex;gap:10px;align-items:flex-start;margin:7px 0;font-size:15px;line-height:1.6}
+.note b{font-weight:800;color:inherit;text-decoration:underline;text-underline-offset:2px}
+.note-h b{font-size:20px;text-decoration:none}
 .icorow .ic{flex:0 0 24px;text-align:center}
 .scorerow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 0;border-bottom:1px dashed #EFE3C8;font-size:15px}
 .scorerow:last-child{border-bottom:none}
@@ -260,20 +262,22 @@ input[type=url]{width:100%;padding:12px;border:1px solid var(--border);border-ra
  <div class="card" id="rulesCard">
   <h2>📜 遊戲規則</h2>
   <div class="note" style="margin-top:0">
-   <p style="margin:0 0 6px"><b>✨ 分數怎麼拿</b></p>
+   <p class="note-h" style="margin:0 0 8px"><b>✨ 分數怎麼拿</b></p>
    <div class="scorerow"><span class="sl">📅 每日打卡（當天打）</span><span class="sp">文本 +6｜數位 +3</span></div>
    <div class="scorerow"><span class="sl">⏳ 忘記了？3 天內可補打卡</span><span class="sp">文本 +4｜數位 +2</span></div>
    <div class="scorerow"><span class="sl">🔥 連續打卡加成（中斷重新計算）</span><span class="sp">第 7 天起每天 +1｜第 14 天起 +2</span></div>
    <div class="scorerow"><span class="sl">🏁 闖關寫完一篇心得</span><span class="sp">+20<span class="dim">（數位閱聽 +12）</span></span></div>
    <div class="scorerow"><span class="sl">🤖 用 AI 協作並回答反思題</span><span class="sp">再 +10</span></div>
    <div class="scorerow"><span class="sl">✍️ 自由書寫通道（純練習）</span><span class="sp zero">0 分｜想拿分請走「闖關」</span></div>
-   <p style="margin:12px 0 6px"><b>⚖️ 公平規則（請認真看）</b></p>
+   <p class="note-h" style="margin:16px 0 8px"><b>⚖️ 公平規則（請認真看）</b></p>
    <div class="icorow"><span class="ic">👀</span><span>每一篇繳交的心得，都會經過老師或志工審核</span></div>
    <div class="icorow"><span class="ic">🚫</span><span>灌水、抄襲、或大量重複字句的文章，<b>積分全部歸零</b>，排行榜名次也會消失</span></div>
    <div class="icorow"><span class="ic">🙋</span><span>覺得被冤枉？10 天內都可以向老師提出「補充說明」，附上證據（書頁照片、筆記、收聽紀錄），文章會退給原本的老師再看一次</span></div>
-   <p style="margin:12px 0 6px"><b>🏆 排行榜</b></p>
+   <div class="icorow"><span class="ic">🎤</span><span>領獎前一關：<b>5 分鐘面談。</b>跟老師聊聊你寫的閱讀心得，確認是你自己讀的、自己寫的，不是請 AI 代寫</span></div>
+   <p class="note-h" style="margin:16px 0 8px"><b>🏆 排行榜</b></p>
    <div class="icorow"><span class="ic">🗓</span><span>每期賽程只算當期積分（本期區間見下方排行榜卡）；同分並列同名次</span></div>
    <div class="icorow"><span class="ic">🕶</span><span>排行榜只顯示暱稱，不會出現真名</span></div>
+   <div class="icorow"><span class="ic">🎁</span><span>時間截止後，系統會列出<b>前 20 名「入圍」</b>；老師會安排 5 分鐘面談確認名單，面談通過才發小禮物</span></div>
   </div>
  </div>
  <div class="card" id="lbCard">
